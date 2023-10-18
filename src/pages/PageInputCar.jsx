@@ -147,7 +147,7 @@ const PageInputCar = () => {
                   <InputGroup>
                     <DropdownButton
                       required
-                      id="dropdown-transmissionCar"
+                      id="transmissionCar"
                       title=" "
                       onSelect={handleDropdownTransmission}
                     >
@@ -181,7 +181,7 @@ const PageInputCar = () => {
                   <InputGroup>
                     <DropdownButton
                       required
-                      id="dropdown-fuelCar"
+                      id="fuelCar"
                       title=" "
                       onSelect={handleDropdownFuel}
                     >
@@ -199,11 +199,12 @@ const PageInputCar = () => {
                   </InputGroup>
                 </Form.Group>
 
-                <Form.Group className="mb-3">
-                  <Form.Label>Bahan Bakar</Form.Label>
+                <Form.Group controlId="taxCar" className="mb-3">
+                  <Form.Label>Bulan & Tahun Pajak</Form.Label>
                   <br />
                   <DatePicker
                     required
+                    id="taxCar"
                     selected={selectedDate}
                     onChange={handleDateChange}
                     showMonthYearPicker

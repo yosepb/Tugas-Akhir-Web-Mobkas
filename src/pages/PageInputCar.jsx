@@ -50,44 +50,6 @@ const PageInputCar = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
 
-    const reader = new FileReader();
-    reader.onload = function (event) {
-      const img = new Image();
-      img.onload = function () {
-        const canvas = document.createElement("canvas");
-        const maxSize = Math.max(img.width, img.height);
-        const targetSize = 1500; // Ukuran target yang diinginkan
-        const displaySize = 300; // Ukuran tampilan yang diinginkan
-
-        const scale = targetSize / maxSize;
-        const scaledWidth = img.width * scale;
-        const scaledHeight = img.height * scale;
-
-        canvas.width = targetSize;
-        canvas.height = targetSize;
-
-        const context = canvas.getContext("2d");
-
-        // Mengisi canvas dengan tepian warna
-        context.fillStyle = "#D2E0FB";
-        context.fillRect(0, 0, targetSize, targetSize);
-
-        // Menggambar gambar dengan ukuran yang diubah ke dalam canvas
-        const x = (targetSize - scaledWidth) / 2;
-        const y = (targetSize - scaledHeight) / 2;
-        context.drawImage(img, x, y, scaledWidth, scaledHeight);
-
-        // Mengubah hasil canvas menjadi URL gambar
-        const processedImageUrl = canvas.toDataURL();
-        setProcessedImage(processedImageUrl);
-        console.log("gambar baru diproses secara statis");
-      };
-
-      img.src = event.target.result;
-    };
-
-    reader.readAsDataURL(selectedImage);
-
     SweetAlert.fire({
       title: "Tambah",
       text: "Anda yakin ingin menambahkan data ini ?",
@@ -99,6 +61,43 @@ const PageInputCar = () => {
       if (result.isConfirmed) {
         // Handle form submission
         Swal.fire("Ditambahkan!", "Data telah ditambahkan.", "success");
+        const reader = new FileReader();
+        reader.onload = function (event) {
+          const img = new Image();
+          img.onload = function () {
+            const canvas = document.createElement("canvas");
+            const maxSize = Math.max(img.width, img.height);
+            const targetSize = 1500; // Ukuran target yang diinginkan
+            const displaySize = 300; // Ukuran tampilan yang diinginkan
+
+            const scale = targetSize / maxSize;
+            const scaledWidth = img.width * scale;
+            const scaledHeight = img.height * scale;
+
+            canvas.width = targetSize;
+            canvas.height = targetSize;
+
+            const context = canvas.getContext("2d");
+
+            // Mengisi canvas dengan tepian warna
+            context.fillStyle = "#D2E0FB";
+            context.fillRect(0, 0, targetSize, targetSize);
+
+            // Menggambar gambar dengan ukuran yang diubah ke dalam canvas
+            const x = (targetSize - scaledWidth) / 2;
+            const y = (targetSize - scaledHeight) / 2;
+            context.drawImage(img, x, y, scaledWidth, scaledHeight);
+
+            // Mengubah hasil canvas menjadi URL gambar
+            const processedImageUrl = canvas.toDataURL();
+            setProcessedImage(processedImageUrl);
+            console.log("gambar baru diproses secara statis");
+          };
+
+          img.src = event.target.result;
+        };
+
+        reader.readAsDataURL(selectedImage);
       }
     });
   };

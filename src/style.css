@@ -1,0 +1,7 @@
+.carousel-image-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 300px; /* Sesuaikan dengan tinggi gambar */
+    background-color: #D2E0FB; /* Warna latar belakang abu */
+  }

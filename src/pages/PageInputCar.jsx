@@ -21,8 +21,12 @@ registerLocale("id", id);
 setDefaultLocale("id");
 
 const PageInputCar = () => {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [processedImage, setProcessedImage] = useState(null);
+  const [selectedImage1, setSelectedImage1] = useState(null);
+  const [selectedImage2, setSelectedImage2] = useState(null);
+  const [selectedImage3, setSelectedImage3] = useState(null);
+  const [processedImage1, setProcessedImage1] = useState(null);
+  const [processedImage2, setProcessedImage2] = useState(null);
+  const [processedImage3, setProcessedImage3] = useState(null);
 
   const [selectedItemTransmision, setSelectedItemTransmision] = useState("");
   const [selectedItemFuel, setSelectedItemFuel] = useState("");
@@ -39,8 +43,21 @@ const PageInputCar = () => {
     setSelectedItemFuel(item);
   };
 
-  const handleImageChange = (event) => {
-    setSelectedImage(event.target.files[0]);
+  const handleImageChange = (event, imageNumber) => {
+    const selectedImage = event.target.files[0];
+    switch (imageNumber) {
+      case 1:
+        setSelectedImage1(selectedImage);
+        break;
+      case 2:
+        setSelectedImage2(selectedImage);
+        break;
+      case 3:
+        setSelectedImage3(selectedImage);
+        break;
+      default:
+        break;
+    }
   };
 
   const handleDateChange = (date) => {
@@ -61,43 +78,55 @@ const PageInputCar = () => {
       if (result.isConfirmed) {
         // Handle form submission
         Swal.fire("Ditambahkan!", "Data telah ditambahkan.", "success");
-        const reader = new FileReader();
-        reader.onload = function (event) {
-          const img = new Image();
-          img.onload = function () {
-            const canvas = document.createElement("canvas");
-            const maxSize = Math.max(img.width, img.height);
-            const targetSize = 1500; // Ukuran target yang diinginkan
-            const displaySize = 300; // Ukuran tampilan yang diinginkan
 
-            const scale = targetSize / maxSize;
-            const scaledWidth = img.width * scale;
-            const scaledHeight = img.height * scale;
+        const processImage = (selectedImage, setProcessedImage) => {
+          const reader = new FileReader();
+          reader.onload = function (event) {
+            const img = new Image();
+            img.onload = function () {
+              const canvas = document.createElement("canvas");
+              const maxSize = Math.max(img.width, img.height);
+              const targetSize = 1500; // Ukuran target yang diinginkan
 
-            canvas.width = targetSize;
-            canvas.height = targetSize;
+              const scale = targetSize / maxSize;
+              const scaledWidth = img.width * scale;
+              const scaledHeight = img.height * scale;
 
-            const context = canvas.getContext("2d");
+              canvas.width = targetSize;
+              canvas.height = targetSize;
 
-            // Mengisi canvas dengan tepian warna
-            context.fillStyle = "#D2E0FB";
-            context.fillRect(0, 0, targetSize, targetSize);
+              const context = canvas.getContext("2d");
 
-            // Menggambar gambar dengan ukuran yang diubah ke dalam canvas
-            const x = (targetSize - scaledWidth) / 2;
-            const y = (targetSize - scaledHeight) / 2;
-            context.drawImage(img, x, y, scaledWidth, scaledHeight);
+              // Mengisi canvas dengan tepian warna
+              context.fillStyle = "#D2E0FB";
+              context.fillRect(0, 0, targetSize, targetSize);
 
-            // Mengubah hasil canvas menjadi URL gambar
-            const processedImageUrl = canvas.toDataURL();
-            setProcessedImage(processedImageUrl);
-            console.log("gambar baru diproses secara statis");
+              // Menggambar gambar dengan ukuran yang diubah ke dalam canvas
+              const x = (targetSize - scaledWidth) / 2;
+              const y = (targetSize - scaledHeight) / 2;
+              context.drawImage(img, x, y, scaledWidth, scaledHeight);
+
+              // Mengubah hasil canvas menjadi URL gambar
+              const processedImageUrl = canvas.toDataURL();
+              setProcessedImage(processedImageUrl);
+              console.log("gambar baru diproses secara statis");
+            };
+
+            img.src = event.target.result;
           };
 
-          img.src = event.target.result;
+          reader.readAsDataURL(selectedImage);
         };
 
-        reader.readAsDataURL(selectedImage);
+        if (selectedImage1) {
+          processImage(selectedImage1, setProcessedImage1);
+        }
+        if (selectedImage2) {
+          processImage(selectedImage2, setProcessedImage2);
+        }
+        if (selectedImage3) {
+          processImage(selectedImage3, setProcessedImage3);
+        }
       }
     });
   };
@@ -214,12 +243,28 @@ const PageInputCar = () => {
                   />
                 </Form.Group>
 
-                <Form.Group controlId="imageUpload" className="mb-3">
-                  <Form.Label>Gambar Mobil</Form.Label>
+                <Form.Group controlId="imageUpload1" className="mb-3">
+                  <Form.Label>Gambar Mobil 1</Form.Label>
                   <Form.Control
                     required
                     type="file"
-                    onChange={handleImageChange}
+                    onChange={(event) => handleImageChange(event, 1)}
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="imageUpload2" className="mb-3">
+                  <Form.Label>Gambar Mobil 2 (opsional)</Form.Label>
+                  <Form.Control
+                    type="file"
+                    onChange={(event) => handleImageChange(event, 2)}
+                  />
+                </Form.Group>
+
+                <Form.Group controlId="imageUpload3" className="mb-3">
+                  <Form.Label>Gambar Mobil 3 (opsional)</Form.Label>
+                  <Form.Control
+                    type="file"
+                    onChange={(event) => handleImageChange(event, 3)}
                   />
                 </Form.Group>
 
@@ -227,12 +272,35 @@ const PageInputCar = () => {
                   <Button type="submit">Tambah</Button>
                 </div>
 
-                {processedImage && (
-                  <img
-                    src={processedImage}
-                    alt="Processed Image"
-                    style={{ maxWidth: 300 }}
-                  />
+                {/* Display processed images */}
+                {processedImage1 && (
+                  <div>
+                    <img
+                      src={processedImage1}
+                      alt="Processed Image 1"
+                      style={{ maxWidth: 300 }}
+                    />
+                  </div>
+                )}
+
+                {processedImage2 && (
+                  <div>
+                    <img
+                      src={processedImage2}
+                      alt="Processed Image 2"
+                      style={{ maxWidth: 300 }}
+                    />
+                  </div>
+                )}
+
+                {processedImage3 && (
+                  <div>
+                    <img
+                      src={processedImage3}
+                      alt="Processed Image 3"
+                      style={{ maxWidth: 300 }}
+                    />
+                  </div>
                 )}
               </Form>
             </Card.Body>

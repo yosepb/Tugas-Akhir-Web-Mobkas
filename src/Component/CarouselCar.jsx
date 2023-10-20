@@ -77,12 +77,15 @@ export default class CarouselCar extends Component {
       },
     ];
     return (
-      <div>
+      <div style={{}}>
         <Slider
           {...settings}
           style={{
-            width: "1000px",
-            boxShadow: "13px 7px 20px -3px rgba(0,0,0,0.1)",
+            width: "1200px",
+            padding: "20px",
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "40px",
           }}
         >
           {cardData.map((item) => (

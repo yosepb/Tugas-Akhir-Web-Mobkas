@@ -18,28 +18,48 @@ function MainPages() {
       <Navbar />
       <MainBanner />
 
+      <p
+        style={{
+          fontSize: "40px",
+          fontWeight: "700",
+          display: "flex",
+          alignSelf: "center",
+        }}
+      >
+        Mobil
+      </p>
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          width: "60%",
-          flexDirection: "column",
+          width: "100%",
+          backgroundColor: "#121b6e",
         }}
       >
-        <p
-          style={{
-            fontSize: "40px",
-            fontWeight: "700",
-            display: "flex",
-            alignSelf: "start",
-          }}
-        >
-          Mobil
-        </p>
         <CarouselCar />
       </div>
-      <div>
+      <p
+        style={{
+          fontSize: "40px",
+          fontWeight: "700",
+          display: "flex",
+          alignSelf: "center",
+        }}
+      >
+        {" "}
+        Cara Beli Mobil
+      </p>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          width: "100%",
+          flexDirection: "column",
+          backgroundColor: "#eceeff",
+        }}
+      >
         <TutorialBuyCar />
       </div>
     </div>

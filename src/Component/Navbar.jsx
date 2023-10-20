@@ -6,11 +6,12 @@ function Navbar() {
     <div
       style={{
         height: "100px",
-        backgroundColor: "#F5F7F8",
+        backgroundColor: "#121b6e",
         width: "100vw",
         top: "0px",
         display: "flex",
         justifyContent: "center",
+        color: "white",
       }}
     >
       <div

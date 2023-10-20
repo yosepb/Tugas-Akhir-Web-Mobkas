@@ -1,5 +1,8 @@
 import React from "react";
 import { Container, Card, Button } from "react-bootstrap";
+import { BsSpeedometer2 } from "react-icons/Bs";
+import { RiSpeedUpLine } from "react-icons/Ri";
+import { AiOutlineHeart } from "react-icons/Ai";
 
 function CardCar(items) {
   console.log({ items });
@@ -8,16 +11,19 @@ function CardCar(items) {
       <Card
         style={{
           width: "16rem",
-          border: "1px solid black",
           justifyContent: "center",
           alignItems: "center",
           padding: "0",
+          backgroundColor: "white",
+          color: "black",
+          borderRadius: "20px",
         }}
       >
         <img
           style={{
             width: "100%",
             height: "200px",
+            borderRadius: "20px",
           }}
         />
         <Card.Body
@@ -37,9 +43,18 @@ function CardCar(items) {
                 style={{
                   fontSize: "20px",
                   fontWeight: "600",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "130px",
                 }}
               >
-                {items.items.title}
+                <div>{items.items.title}</div>
+
+                <AiOutlineHeart
+                  style={{
+                    color: "red",
+                  }}
+                />
               </Card.Title>
             </div>
             <div
@@ -96,10 +111,24 @@ function CardCar(items) {
                 justifyContent: "space-between",
               }}
             >
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <BsSpeedometer2 />
                 <p>16.736 km</p>
               </div>
-              <div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <RiSpeedUpLine />
                 <p> Automatic</p>
               </div>
             </div>

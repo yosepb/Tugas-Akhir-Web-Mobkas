@@ -23,17 +23,18 @@ function TutorialBuyCar() {
     <div
       style={{
         display: "flex",
-        width: "100%",
+        width: "60%",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         marginBottom: "50px",
-        marginTop: "50px",
+        alignItems: "center",
+        marginTop: "50PX",
       }}
     >
       <div
         style={{
-          width: "60%",
+          width: "100%",
           display: "flex",
           gap: "30px",
         }}
@@ -49,6 +50,7 @@ function TutorialBuyCar() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "space-around",
+              borderRadius: "20PX",
             }}
           >
             <div

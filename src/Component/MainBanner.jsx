@@ -14,7 +14,9 @@ function MainBanner() {
         style={{
           width: "1200px",
           height: "400px",
-          border: "1px solid black",
+          // border: "1px solid black",
+
+          backgroundColor: "yellow",
         }}
       ></div>
     </div>

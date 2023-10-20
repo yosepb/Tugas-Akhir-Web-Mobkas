@@ -20,6 +20,7 @@ import { MdDateRange } from "react-icons/md";
 import { LuGauge } from "react-icons/lu";
 import { TbNumber } from "react-icons/tb";
 import { BsCardText } from "react-icons/bs";
+import { BsCartPlus } from "react-icons/bs";
 
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -252,36 +253,40 @@ const PageDetailCar = () => {
                       <Card.Title>Opsi Pembelian</Card.Title>
                       <Card className="mt-4">
                         <Card.Body>
-                          <Row>
-                            <Col>
+                          <Row className="d-flex align-items-center justify-content-center">
+                            <Col className="text-center" xs={3}>
                               <h6>5 Tahun</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center">
+                              <h6>Bayar Pertama</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center">
+                              <h6>Cicilan/Bulan</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center" xs={2}>
+                              <Button variant="primary">
+                                <BsCartPlus />
+                              </Button>
                             </Col>
                           </Row>
                         </Card.Body>
                       </Card>
                       <Card className="mt-4">
                         <Card.Body>
-                          <Row>
-                            <Col>
+                          <Row className="d-flex align-items-center justify-content-center">
+                            <Col className="text-center" xs={3}>
                               <h6>4 Tahun</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center">
+                              <h6>Bayar Pertama</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center">
+                              <h6>Cicilan/Bulan</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center" xs={2}>
+                              <Button variant="primary">
+                                <BsCartPlus />
+                              </Button>
                             </Col>
                           </Row>
                         </Card.Body>
@@ -289,54 +294,60 @@ const PageDetailCar = () => {
 
                       <Card className="mt-4">
                         <Card.Body>
-                          <Row>
-                            <Col>
+                          <Row className="d-flex align-items-center justify-content-center">
+                            <Col className="text-center" xs={3}>
                               <h6>3 Tahun</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center">
+                              <h6>Bayar Pertama</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center">
+                              <h6>Cicilan/Bulan</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center" xs={2}>
+                              <Button variant="primary">
+                                <BsCartPlus />
+                              </Button>
                             </Col>
                           </Row>
                         </Card.Body>
                       </Card>
                       <Card className="mt-4">
                         <Card.Body>
-                          <Row>
-                            <Col>
+                          <Row className="d-flex align-items-center justify-content-center">
+                            <Col className="text-center" xs={3}>
                               <h6>2 Tahun</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center">
+                              <h6>Bayar Pertama</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center">
+                              <h6>Cicilan/Bulan</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center" xs={2}>
+                              <Button variant="primary">
+                                <BsCartPlus />
+                              </Button>
                             </Col>
                           </Row>
                         </Card.Body>
                       </Card>
                       <Card className="mt-4">
                         <Card.Body>
-                          <Row>
-                            <Col>
+                          <Row className="d-flex align-items-center justify-content-center">
+                            <Col className="text-center" xs={3}>
                               <h6>1 Tahun</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center">
+                              <h6>Bayar Pertama</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center">
+                              <h6>Cicilan/Bulan</h6>
                             </Col>
-                            <Col>
-                              <h6>teks 1</h6>
+                            <Col className="text-center" xs={2}>
+                              <Button variant="primary">
+                                <BsCartPlus />
+                              </Button>
                             </Col>
                           </Row>
                         </Card.Body>

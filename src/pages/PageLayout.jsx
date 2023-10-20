@@ -1,9 +1,10 @@
 import { Outlet } from "react-router-dom";
+import WidgetNavbar from "../components/WidgetNavbar";
 
 export default function PageLayout() {
   return (
     <>
-      {/* <h1>Halaman Layout "/"</h1> */}
+      <WidgetNavbar />
       <Outlet />
     </>
   );

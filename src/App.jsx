@@ -1,18 +1,24 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import PageLayout from "./pages/PageLayout";
-import PageDetailCar from "./pages/PageDetailCar";
-import PageInputCar from "./pages/PageInputCar";
+import { useState } from "react";
+import "./App.css";
+import LoginPage from "./pages/PagesLogin";
+import CardCar from "./Component/CardCar";
+import CarouselCar from "./Component/CarouselCar";
+import MainPages from "./pages/MainPages";
 
 function App() {
+  const [count, setCount] = useState(0);
+
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<PageLayout />}>
-          <Route path="/detail" element={<PageDetailCar />} />
-          <Route path="/input" element={<PageInputCar />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <div
+      style={{
+        width: "100vw",
+        display: "flex",
+        justifyContent: "center",
+      }}
+    >
+      <MainPages />
+      {/* <CarouselCar /> */}
+    </div>
   );
 }
 

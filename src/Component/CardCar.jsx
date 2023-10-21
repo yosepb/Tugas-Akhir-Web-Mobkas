@@ -5,7 +5,7 @@ import { RiSpeedUpLine } from "react-icons/Ri";
 import { AiOutlineHeart } from "react-icons/Ai";
 
 function CardCar(items) {
-  console.log({ items });
+  // console.log({ items });
   return (
     <Container>
       <Card

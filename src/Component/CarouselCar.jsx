@@ -89,7 +89,7 @@ export default class CarouselCar extends Component {
           }}
         >
           {cardData.map((item) => (
-            <CardCar items={item} />
+            <CardCar key={item.id} items={item} />
           ))}
         </Slider>
       </div>

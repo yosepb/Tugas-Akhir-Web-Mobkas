@@ -24,11 +24,9 @@ function TutorialBuyCar() {
       style={{
         display: "flex",
         width: "60%",
-        display: "flex",
         justifyContent: "center",
         alignItems: "center",
         marginBottom: "50px",
-        alignItems: "center",
         marginTop: "50PX",
       }}
     >
@@ -39,8 +37,9 @@ function TutorialBuyCar() {
           gap: "30px",
         }}
       >
-        {data.map((item) => (
+        {data.map((item, index) => (
           <div
+            key={index}
             style={{
               width: "500px",
               height: "400px",

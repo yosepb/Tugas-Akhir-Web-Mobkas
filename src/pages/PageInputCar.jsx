@@ -10,6 +10,7 @@ import {
   Dropdown,
   InputGroup,
 } from "react-bootstrap";
+import WidgetNavbar from "../components/WidgetNavbar";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -132,182 +133,187 @@ const PageInputCar = () => {
   };
 
   return (
-    <Container>
-      <Row className="vh-100 d-flex justify-content-center mt-4">
-        <Col md={7}>
-          <Card>
-            <Card.Body>
-              <Card.Title className="text-center">
-                Input Data Mobil Bekas
-              </Card.Title>
-              <Form onSubmit={handleSubmit}>
-                <Form.Group controlId="nameCar" className="mt-3 mb-3">
-                  <Form.Label>Nama Mobil</Form.Label>
-                  <Form.Control
-                    required
-                    name="nameCar"
-                    type="text"
-                    placeholder="Masukan Nama"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="kilometerCar" className="mb-3">
-                  <Form.Label>Total Kilometer</Form.Label>
-                  <Form.Control
-                    required
-                    name="kilometerCar"
-                    type="number"
-                    placeholder="Masukan Total Kilometer"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="yearCar" className="mb-3">
-                  <Form.Label>Tahun Produksi</Form.Label>
-                  <Form.Control
-                    required
-                    name="yearCar"
-                    type="number"
-                    placeholder="Masukan Tahun Produksi"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="transmissionCar" className="mb-3">
-                  <Form.Label>Transmisi</Form.Label>
-                  <InputGroup>
-                    <DropdownButton
-                      required
-                      id="transmissionCar"
-                      title=" "
-                      onSelect={handleDropdownTransmission}
-                    >
-                      <Dropdown.Item eventKey="Manual">Manual</Dropdown.Item>
-                      <Dropdown.Item eventKey="Automatic">
-                        Automatic
-                      </Dropdown.Item>
-                    </DropdownButton>
+    <>
+      <WidgetNavbar />
+      <Container>
+        <Row className="vh-100 d-flex justify-content-center mt-4">
+          <Col md={7}>
+            <Card>
+              <Card.Body>
+                <Card.Title className="text-center">
+                  Input Data Mobil Bekas
+                </Card.Title>
+                <Form onSubmit={handleSubmit}>
+                  <Form.Group controlId="nameCar" className="mt-3 mb-3">
+                    <Form.Label>Nama Mobil</Form.Label>
                     <Form.Control
                       required
-                      disabled
-                      name="transmissionCar"
-                      value={selectedItemTransmision}
-                      placeholder="👈 pilih di sini"
+                      name="nameCar"
+                      type="text"
+                      placeholder="Masukan Nama"
                     />
-                  </InputGroup>
-                </Form.Group>
+                  </Form.Group>
 
-                <Form.Group controlId="platCar" className="mt-3 mb-3">
-                  <Form.Label>Plat Nomor</Form.Label>
-                  <Form.Control
-                    required
-                    name="platCar"
-                    type="text"
-                    placeholder="Masukan Plat Nomor"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="fuelCar" className="mb-3">
-                  <Form.Label>Bahan Bakar</Form.Label>
-                  <InputGroup>
-                    <DropdownButton
-                      required
-                      id="fuelCar"
-                      title=" "
-                      onSelect={handleDropdownFuel}
-                    >
-                      <Dropdown.Item eventKey="Bensin">Bensin</Dropdown.Item>
-                      <Dropdown.Item eventKey="Diesel">Diesel</Dropdown.Item>
-                      <Dropdown.Item eventKey="Listrik">Listrik</Dropdown.Item>
-                    </DropdownButton>
+                  <Form.Group controlId="kilometerCar" className="mb-3">
+                    <Form.Label>Total Kilometer</Form.Label>
                     <Form.Control
                       required
-                      disabled
-                      name="fuelCar"
-                      value={selectedItemFuel}
-                      placeholder="👈 pilih di sini"
+                      name="kilometerCar"
+                      type="number"
+                      placeholder="Masukan Total Kilometer"
                     />
-                  </InputGroup>
-                </Form.Group>
+                  </Form.Group>
 
-                <Form.Group controlId="taxCar" className="mb-3">
-                  <Form.Label>Bulan & Tahun Pajak</Form.Label>
-                  <br />
-                  <DatePicker
-                    required
-                    id="taxCar"
-                    selected={selectedDate}
-                    onChange={handleDateChange}
-                    showMonthYearPicker
-                    dateFormat="MMMM, yyyy"
-                    placeholderText="Isi Bulan/Tahun di sini"
-                    className="form-control"
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="imageUpload1" className="mb-3">
-                  <Form.Label>Gambar Mobil 1</Form.Label>
-                  <Form.Control
-                    required
-                    type="file"
-                    onChange={(event) => handleImageChange(event, 1)}
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="imageUpload2" className="mb-3">
-                  <Form.Label>Gambar Mobil 2 (opsional)</Form.Label>
-                  <Form.Control
-                    type="file"
-                    onChange={(event) => handleImageChange(event, 2)}
-                  />
-                </Form.Group>
-
-                <Form.Group controlId="imageUpload3" className="mb-3">
-                  <Form.Label>Gambar Mobil 3 (opsional)</Form.Label>
-                  <Form.Control
-                    type="file"
-                    onChange={(event) => handleImageChange(event, 3)}
-                  />
-                </Form.Group>
-
-                <div className="gap-2 mb-3">
-                  <Button type="submit">Tambah</Button>
-                </div>
-
-                {/* Display processed images */}
-                {processedImage1 && (
-                  <div>
-                    <img
-                      src={processedImage1}
-                      alt="Processed Image 1"
-                      style={{ maxWidth: 300 }}
+                  <Form.Group controlId="yearCar" className="mb-3">
+                    <Form.Label>Tahun Produksi</Form.Label>
+                    <Form.Control
+                      required
+                      name="yearCar"
+                      type="number"
+                      placeholder="Masukan Tahun Produksi"
                     />
+                  </Form.Group>
+
+                  <Form.Group controlId="transmissionCar" className="mb-3">
+                    <Form.Label>Transmisi</Form.Label>
+                    <InputGroup>
+                      <DropdownButton
+                        required
+                        id="transmissionCar"
+                        title=" "
+                        onSelect={handleDropdownTransmission}
+                      >
+                        <Dropdown.Item eventKey="Manual">Manual</Dropdown.Item>
+                        <Dropdown.Item eventKey="Automatic">
+                          Automatic
+                        </Dropdown.Item>
+                      </DropdownButton>
+                      <Form.Control
+                        required
+                        disabled
+                        name="transmissionCar"
+                        value={selectedItemTransmision}
+                        placeholder="👈 pilih di sini"
+                      />
+                    </InputGroup>
+                  </Form.Group>
+
+                  <Form.Group controlId="platCar" className="mt-3 mb-3">
+                    <Form.Label>Plat Nomor</Form.Label>
+                    <Form.Control
+                      required
+                      name="platCar"
+                      type="text"
+                      placeholder="Masukan Plat Nomor"
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="fuelCar" className="mb-3">
+                    <Form.Label>Bahan Bakar</Form.Label>
+                    <InputGroup>
+                      <DropdownButton
+                        required
+                        id="fuelCar"
+                        title=" "
+                        onSelect={handleDropdownFuel}
+                      >
+                        <Dropdown.Item eventKey="Bensin">Bensin</Dropdown.Item>
+                        <Dropdown.Item eventKey="Diesel">Diesel</Dropdown.Item>
+                        <Dropdown.Item eventKey="Listrik">
+                          Listrik
+                        </Dropdown.Item>
+                      </DropdownButton>
+                      <Form.Control
+                        required
+                        disabled
+                        name="fuelCar"
+                        value={selectedItemFuel}
+                        placeholder="👈 pilih di sini"
+                      />
+                    </InputGroup>
+                  </Form.Group>
+
+                  <Form.Group controlId="taxCar" className="mb-3">
+                    <Form.Label>Bulan & Tahun Pajak</Form.Label>
+                    <br />
+                    <DatePicker
+                      required
+                      id="taxCar"
+                      selected={selectedDate}
+                      onChange={handleDateChange}
+                      showMonthYearPicker
+                      dateFormat="MMMM, yyyy"
+                      placeholderText="Isi Bulan/Tahun di sini"
+                      className="form-control"
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="imageUpload1" className="mb-3">
+                    <Form.Label>Gambar Mobil 1</Form.Label>
+                    <Form.Control
+                      required
+                      type="file"
+                      onChange={(event) => handleImageChange(event, 1)}
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="imageUpload2" className="mb-3">
+                    <Form.Label>Gambar Mobil 2 (opsional)</Form.Label>
+                    <Form.Control
+                      type="file"
+                      onChange={(event) => handleImageChange(event, 2)}
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="imageUpload3" className="mb-3">
+                    <Form.Label>Gambar Mobil 3 (opsional)</Form.Label>
+                    <Form.Control
+                      type="file"
+                      onChange={(event) => handleImageChange(event, 3)}
+                    />
+                  </Form.Group>
+
+                  <div className="gap-2 mb-3">
+                    <Button type="submit">Tambah</Button>
                   </div>
-                )}
 
-                {processedImage2 && (
-                  <div>
-                    <img
-                      src={processedImage2}
-                      alt="Processed Image 2"
-                      style={{ maxWidth: 300 }}
-                    />
-                  </div>
-                )}
+                  {/* Display processed images */}
+                  {processedImage1 && (
+                    <div>
+                      <img
+                        src={processedImage1}
+                        alt="Processed Image 1"
+                        style={{ maxWidth: 300 }}
+                      />
+                    </div>
+                  )}
 
-                {processedImage3 && (
-                  <div>
-                    <img
-                      src={processedImage3}
-                      alt="Processed Image 3"
-                      style={{ maxWidth: 300 }}
-                    />
-                  </div>
-                )}
-              </Form>
-            </Card.Body>
-          </Card>
-        </Col>
-      </Row>
-    </Container>
+                  {processedImage2 && (
+                    <div>
+                      <img
+                        src={processedImage2}
+                        alt="Processed Image 2"
+                        style={{ maxWidth: 300 }}
+                      />
+                    </div>
+                  )}
+
+                  {processedImage3 && (
+                    <div>
+                      <img
+                        src={processedImage3}
+                        alt="Processed Image 3"
+                        style={{ maxWidth: 300 }}
+                      />
+                    </div>
+                  )}
+                </Form>
+              </Card.Body>
+            </Card>
+          </Col>
+        </Row>
+      </Container>
+    </>
   );
 };
 

@@ -16,6 +16,7 @@ function WidgetNavbar() {
             </NavDropdown>
             <NavDropdown title="Nav Admin" id="basic-nav-dropdown">
               <NavDropdown.Item href="/input">Input Data</NavDropdown.Item>
+              <NavDropdown.Item href="/edit">Edit Data</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

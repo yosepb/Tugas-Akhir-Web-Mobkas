@@ -8,6 +8,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PageLayout from "./pages/PageLayout";
 import PageDetailCar from "./pages/PageDetailCar";
 import PageInputCar from "./pages/PageInputCar";
+import PageEditCar from "./pages/PageEditCar";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -30,6 +31,7 @@ function App() {
             <Route index element={<MainPages />} />
             <Route path="/detail" element={<PageDetailCar />} />
             <Route path="/input" element={<PageInputCar />} />
+            <Route path="/edit" element={<PageEditCar />} />
           </Route>
         </Routes>
       </BrowserRouter>

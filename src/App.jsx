@@ -9,6 +9,7 @@ import PageLayout from "./pages/PageLayout";
 import PageDetailCar from "./pages/PageDetailCar";
 import PageInputCar from "./pages/PageInputCar";
 import PageEditCar from "./pages/PageEditCar";
+import PageDetailCarAdmin from "./pages/PageDetailCarAdmin";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -30,6 +31,7 @@ function App() {
           <Route path="/" element={<PageLayout />}>
             <Route index element={<MainPages />} />
             <Route path="/detail" element={<PageDetailCar />} />
+            <Route path="/detail-admin" element={<PageDetailCarAdmin />} />
             <Route path="/input" element={<PageInputCar />} />
             <Route path="/edit" element={<PageEditCar />} />
           </Route>

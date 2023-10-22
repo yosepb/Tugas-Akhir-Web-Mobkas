@@ -69,8 +69,8 @@ const PageEditCar = () => {
     event.preventDefault();
 
     SweetAlert.fire({
-      title: "Tambah",
-      text: "Anda yakin ingin menambahkan data ini ?",
+      title: "Edit",
+      text: "Anda yakin ingin mengubah data ini ?",
       icon: "question",
       showCancelButton: true,
       confirmButtonText: "Ya",
@@ -78,7 +78,7 @@ const PageEditCar = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         // Handle form submission
-        Swal.fire("Ditambahkan!", "Data telah ditambahkan.", "success");
+        Swal.fire("Diubah!", "Data telah diubah.", "success");
 
         const processImage = (selectedImage, setProcessedImage) => {
           const reader = new FileReader();
@@ -141,7 +141,7 @@ const PageEditCar = () => {
             <Card>
               <Card.Body>
                 <Card.Title className="text-center">
-                  Input Data Mobil Bekas
+                  Edit Data Mobil Bekas
                 </Card.Title>
                 <Form onSubmit={handleSubmit}>
                   <Form.Group controlId="nameCar" className="mt-3 mb-3">
@@ -204,7 +204,10 @@ const PageEditCar = () => {
                       required
                       name="platCar"
                       type="text"
+                      pattern="[A-Z0-9]+"
+                      maxLength={9}
                       placeholder="Masukan Plat Nomor"
+                      title="Plat nomor harus terdiri dari huruf kapital dan/atau angka"
                     />
                   </Form.Group>
 
@@ -274,7 +277,7 @@ const PageEditCar = () => {
                   </Form.Group>
 
                   <div className="gap-2 mb-3">
-                    <Button type="submit">Tambah</Button>
+                    <Button type="submit">Edit</Button>
                   </div>
 
                   {/* Display processed images */}

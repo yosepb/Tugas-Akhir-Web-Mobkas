@@ -204,7 +204,10 @@ const PageInputCar = () => {
                       required
                       name="platCar"
                       type="text"
+                      pattern="[A-Z0-9]+"
+                      maxLength={9}
                       placeholder="Masukan Plat Nomor"
+                      title="Plat nomor harus terdiri dari huruf kapital dan/atau angka"
                     />
                   </Form.Group>
 

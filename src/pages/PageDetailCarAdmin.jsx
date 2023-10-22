@@ -37,7 +37,7 @@ import Carry3 from "../assets/carry (3).jpg";
 registerLocale("id", id);
 setDefaultLocale("id");
 
-const PageDetailCar = () => {
+const PageDetailCarAdmin = () => {
   const [selectedImage1, setSelectedImage1] = useState(null);
   const [selectedImage2, setSelectedImage2] = useState(null);
   const [selectedImage3, setSelectedImage3] = useState(null);
@@ -253,15 +253,15 @@ const PageDetailCar = () => {
                     >
                       <Card.Body>
                         <Row>
-                          <Col
-                            xs={8}
-                            className="d-flex align-items-center justify-content-left"
-                          >
-                            Harga: Rp. 900.000.000,00-
+                          <Col xs={4}></Col>
+                          <Col xs={4} className="d-flex justify-content-end">
+                            <Button variant="primary">
+                              <BsCartPlus /> Edit
+                            </Button>
                           </Col>
                           <Col xs={4} className="d-flex justify-content-end">
-                            <Button variant="success">
-                              <BsCartPlus /> Beli via WhatsApp
+                            <Button variant="danger">
+                              <BsCartPlus /> Hapus
                             </Button>
                           </Col>
                         </Row>
@@ -391,4 +391,4 @@ const PageDetailCar = () => {
   );
 };
 
-export default PageDetailCar;
+export default PageDetailCarAdmin;

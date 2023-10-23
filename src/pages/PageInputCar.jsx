@@ -69,7 +69,7 @@ const PageInputCar = () => {
       img.onload = function () {
         const canvas = document.createElement("canvas");
         const maxSize = Math.max(img.width, img.height);
-        const targetSize = 900; // Ukuran target yang diinginkan
+        const targetSize = 1100; // Ukuran target gambar yang diinginkan
 
         const scale = targetSize / maxSize;
         const scaledWidth = img.width * scale;

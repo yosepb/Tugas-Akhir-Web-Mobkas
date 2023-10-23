@@ -7,7 +7,13 @@ function SampleNextArrow(props) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", background: "green" }}
+      style={{
+        ...style,
+        display: "block",
+        background: "#121b6e",
+        width: "30px",
+        height: "30px",
+      }}
       onClick={onClick}
     />
   );
@@ -18,7 +24,13 @@ function SamplePrevArrow(props) {
   return (
     <div
       className={className}
-      style={{ ...style, display: "block", background: "green" }}
+      style={{
+        ...style,
+        display: "block",
+        background: "#121b6e",
+        width: "30px",
+        height: "30px",
+      }}
       onClick={onClick}
     />
   );
@@ -81,7 +93,7 @@ export default class CarouselCar extends Component {
         <Slider
           {...settings}
           style={{
-            width: "1200px",
+            width: "1300px",
             padding: "20px",
             display: "flex",
             justifyContent: "center",

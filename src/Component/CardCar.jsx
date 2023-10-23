@@ -3,21 +3,25 @@ import { Container, Card, Button } from "react-bootstrap";
 import { BsSpeedometer2 } from "react-icons/Bs";
 import { RiSpeedUpLine } from "react-icons/Ri";
 import { AiOutlineHeart } from "react-icons/Ai";
+import { useNavigate } from "react-router-dom";
 
 function CardCar(items) {
   // console.log({ items });
+  const navigate = useNavigate();
   return (
     <Container>
       <Card
         style={{
-          width: "16rem",
+          width: "19rem",
           justifyContent: "center",
           alignItems: "center",
           padding: "0",
           backgroundColor: "white",
           color: "black",
           borderRadius: "20px",
+          cursor: "pointer",
         }}
+        onClick={() => navigate("/detail")}
       >
         <img
           style={{
@@ -64,45 +68,7 @@ function CardCar(items) {
                 alignItems: "start",
               }}
             >
-              <p
-                style={{
-                  backgroundColor: "transparent",
-                  padding: "4px 10px 4px 10px ",
-                  border: "1px solid blue",
-                  color: "blue",
-                  fontWeight: "500",
-                  marginBottom: "-10px",
-                }}
-              >
-                Best Deal
-              </p>
               <p> Rp. 4.300.000 /bln</p>
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "start",
-                  gap: "5px",
-                  marginTop: "-30px",
-                }}
-              >
-                <p
-                  style={{
-                    fontSize: "11px",
-                  }}
-                >
-                  Bayar pertama mulai dari
-                </p>
-                <p
-                  style={{
-                    fontSize: "11px",
-                    fontWeight: "500",
-                  }}
-                >
-                  {" "}
-                  Rp.20.000.000
-                </p>
-              </div>
             </div>
             <div
               style={{
@@ -118,17 +84,28 @@ function CardCar(items) {
                   gap: "10px",
                 }}
               >
-                <BsSpeedometer2 />
+                <BsSpeedometer2
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                  }}
+                />
+
                 <p>16.736 km</p>
               </div>
               <div
                 style={{
                   display: "flex",
-                  alignItems: "center",
                   gap: "10px",
+                  alignItems: "center",
                 }}
               >
-                <RiSpeedUpLine />
+                <RiSpeedUpLine
+                  style={{
+                    width: "20px",
+                    height: "20px",
+                  }}
+                />
                 <p> Automatic</p>
               </div>
             </div>

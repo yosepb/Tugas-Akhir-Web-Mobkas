@@ -17,6 +17,7 @@ import { registerLocale, setDefaultLocale } from "react-datepicker";
 import id from "date-fns/locale/id";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
+import configApi from "../config.api";
 
 registerLocale("id", id);
 setDefaultLocale("id");
@@ -61,6 +62,55 @@ const PageInputCar = () => {
     }
   };
 
+  const processImage = (selectedImage, setProcessedImage) => {
+    const reader = new FileReader();
+    reader.onload = function (event) {
+      const img = new Image();
+      img.onload = function () {
+        const canvas = document.createElement("canvas");
+        const maxSize = Math.max(img.width, img.height);
+        const targetSize = 1500; // Ukuran target yang diinginkan
+
+        const scale = targetSize / maxSize;
+        const scaledWidth = img.width * scale;
+        const scaledHeight = img.height * scale;
+
+        canvas.width = targetSize;
+        canvas.height = targetSize;
+
+        const context = canvas.getContext("2d");
+
+        // Mengisi canvas dengan tepian warna
+        context.fillStyle = "#D2E0FB";
+        context.fillRect(0, 0, targetSize, targetSize);
+
+        // Menggambar gambar dengan ukuran yang diubah ke dalam canvas
+        const x = (targetSize - scaledWidth) / 2;
+        const y = (targetSize - scaledHeight) / 2;
+        context.drawImage(img, x, y, scaledWidth, scaledHeight);
+
+        // Mengubah hasil canvas menjadi URL gambar
+        const processedImageUrl = canvas.toDataURL();
+        setProcessedImage(processedImageUrl);
+        // console.log("gambar baru diproses secara statis");
+      };
+
+      img.src = event.target.result;
+    };
+
+    reader.readAsDataURL(selectedImage);
+  };
+
+  if (selectedImage1) {
+    processImage(selectedImage1, setProcessedImage1);
+  }
+  if (selectedImage2) {
+    processImage(selectedImage2, setProcessedImage2);
+  }
+  if (selectedImage3) {
+    processImage(selectedImage3, setProcessedImage3);
+  }
+
   const handleDateChange = (date) => {
     setSelectedDate(date);
   };
@@ -75,58 +125,42 @@ const PageInputCar = () => {
       showCancelButton: true,
       confirmButtonText: "Ya",
       cancelButtonText: "Tidak",
-    }).then((result) => {
+    }).then(async (result) => {
       if (result.isConfirmed) {
         // Handle form submission
         Swal.fire("Ditambahkan!", "Data telah ditambahkan.", "success");
 
-        const processImage = (selectedImage, setProcessedImage) => {
-          const reader = new FileReader();
-          reader.onload = function (event) {
-            const img = new Image();
-            img.onload = function () {
-              const canvas = document.createElement("canvas");
-              const maxSize = Math.max(img.width, img.height);
-              const targetSize = 1500; // Ukuran target yang diinginkan
-
-              const scale = targetSize / maxSize;
-              const scaledWidth = img.width * scale;
-              const scaledHeight = img.height * scale;
-
-              canvas.width = targetSize;
-              canvas.height = targetSize;
-
-              const context = canvas.getContext("2d");
-
-              // Mengisi canvas dengan tepian warna
-              context.fillStyle = "#D2E0FB";
-              context.fillRect(0, 0, targetSize, targetSize);
-
-              // Menggambar gambar dengan ukuran yang diubah ke dalam canvas
-              const x = (targetSize - scaledWidth) / 2;
-              const y = (targetSize - scaledHeight) / 2;
-              context.drawImage(img, x, y, scaledWidth, scaledHeight);
-
-              // Mengubah hasil canvas menjadi URL gambar
-              const processedImageUrl = canvas.toDataURL();
-              setProcessedImage(processedImageUrl);
-              console.log("gambar baru diproses secara statis");
-            };
-
-            img.src = event.target.result;
-          };
-
-          reader.readAsDataURL(selectedImage);
+        // Mengirim data ke endpoint POST /produk
+        const payload = {
+          nama: event.target.nameCar.value,
+          kilometer: event.target.kilometerCar.value,
+          tahun: event.target.yearCar.value,
+          transmisi: selectedItemTransmision,
+          bahan_bakar: selectedItemFuel,
+          plat_nomor: event.target.platCar.value,
+          foto: [processedImage1, processedImage2, processedImage3],
+          stnk: selectedDate,
         };
 
-        if (selectedImage1) {
-          processImage(selectedImage1, setProcessedImage1);
-        }
-        if (selectedImage2) {
-          processImage(selectedImage2, setProcessedImage2);
-        }
-        if (selectedImage3) {
-          processImage(selectedImage3, setProcessedImage3);
+        console.log(payload);
+
+        try {
+          const response = await fetch(`${configApi.BASE_URL}/produk`, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(payload),
+          });
+
+          if (response.ok) {
+            console.log("Data berhasil dikirim ke endpoint POST /produk");
+          } else {
+            console.log("Gagal mengirim data ke endpoint POST /produk");
+          }
+        } catch (error) {
+          // console.log(response);
+          console.log("Terjadi kesalahan:", error);
         }
       }
     });
@@ -281,7 +315,7 @@ const PageInputCar = () => {
                   </div>
 
                   {/* Display processed images */}
-                  {processedImage1 && (
+                  {/* {processedImage1 && (
                     <div>
                       <img
                         src={processedImage1}
@@ -309,7 +343,8 @@ const PageInputCar = () => {
                         style={{ maxWidth: 300 }}
                       />
                     </div>
-                  )}
+                  )} */}
+                  {/*  */}
                 </Form>
               </Card.Body>
             </Card>

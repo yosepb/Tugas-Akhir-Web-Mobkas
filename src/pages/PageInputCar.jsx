@@ -69,7 +69,7 @@ const PageInputCar = () => {
       img.onload = function () {
         const canvas = document.createElement("canvas");
         const maxSize = Math.max(img.width, img.height);
-        const targetSize = 1500; // Ukuran target yang diinginkan
+        const targetSize = 900; // Ukuran target yang diinginkan
 
         const scale = targetSize / maxSize;
         const scaledWidth = img.width * scale;
@@ -155,6 +155,9 @@ const PageInputCar = () => {
 
           if (response.ok) {
             console.log("Data berhasil dikirim ke endpoint POST /produk");
+
+            // refresh Halaman
+            window.location.reload();
           } else {
             console.log("Gagal mengirim data ke endpoint POST /produk");
           }
@@ -313,38 +316,6 @@ const PageInputCar = () => {
                   <div className="gap-2 mb-3">
                     <Button type="submit">Tambah</Button>
                   </div>
-
-                  {/* Display processed images */}
-                  {/* {processedImage1 && (
-                    <div>
-                      <img
-                        src={processedImage1}
-                        alt="Processed Image 1"
-                        style={{ maxWidth: 300 }}
-                      />
-                    </div>
-                  )}
-
-                  {processedImage2 && (
-                    <div>
-                      <img
-                        src={processedImage2}
-                        alt="Processed Image 2"
-                        style={{ maxWidth: 300 }}
-                      />
-                    </div>
-                  )}
-
-                  {processedImage3 && (
-                    <div>
-                      <img
-                        src={processedImage3}
-                        alt="Processed Image 3"
-                        style={{ maxWidth: 300 }}
-                      />
-                    </div>
-                  )} */}
-                  {/*  */}
                 </Form>
               </Card.Body>
             </Card>

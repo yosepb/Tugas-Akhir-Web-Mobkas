@@ -7,7 +7,12 @@ import MainPages from "./pages/MainPages";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import PageLayout from "./pages/PageLayout";
 import PageDetailCar from "./pages/PageDetailCar";
+import PageInputCarTes from "./pages/PageInputCarTes";
 import PageInputCar from "./pages/PageInputCar";
+import PageEditCar from "./pages/PageEditCar";
+import PageDetailCarAdmin from "./pages/PageDetailCarAdmin";
+import PagesLogin from "./pages/PagesLogin";
+import MainPagesAdmin from "./pages/MainPagesAdmin";
 
 function App() {
   const [count, setCount] = useState(0);
@@ -19,7 +24,15 @@ function App() {
           <Route path="/" element={<PageLayout />}>
             <Route index element={<MainPages />} />
             <Route path="/detail" element={<PageDetailCar />} />
-            <Route path="/input" element={<PageInputCar />} />
+            <Route path="/admin" element={<MainPagesAdmin />} />
+            <Route path="/admin/login" element={<PagesLogin />} />
+            <Route
+              path="/admin/detail-admin"
+              element={<PageDetailCarAdmin />}
+            />
+            {/* <Route path="/admin/input" element={<PageInputCarTes />} /> */}
+            <Route path="/admin/input" element={<PageInputCar />} />
+            <Route path="/admin/edit" element={<PageEditCar />} />
           </Route>
         </Routes>
       </BrowserRouter>

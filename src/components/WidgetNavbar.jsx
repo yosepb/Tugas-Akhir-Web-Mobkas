@@ -15,7 +15,17 @@ function WidgetNavbar() {
               <NavDropdown.Item href="/detail">Detail Mobil</NavDropdown.Item>
             </NavDropdown>
             <NavDropdown title="Nav Admin" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/input">Input Data</NavDropdown.Item>
+              <NavDropdown.Item href="/admin/login">
+                Login Admin
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/admin">Home Admin</NavDropdown.Item>
+              <NavDropdown.Item href="/admin/detail-admin">
+                Detail Mobil
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/admin/input">
+                Input Data
+              </NavDropdown.Item>
+              <NavDropdown.Item href="/admin/edit">Edit Data</NavDropdown.Item>
             </NavDropdown>
           </Nav>
         </Navbar.Collapse>

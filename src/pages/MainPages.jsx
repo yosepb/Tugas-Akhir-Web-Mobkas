@@ -5,6 +5,7 @@ import MainBanner from "../Component/MainBanner";
 import TutorialBuyCar from "../Component/TutorialBuyCar";
 import ListMobil from "../Component/ListMobil";
 import { BiSolidDownArrow } from "react-icons/Bi";
+import ProductFilter from "../Component/Filter";
 
 function MainPages() {
   const [toggle, setToggle] = useState(false);
@@ -22,16 +23,6 @@ function MainPages() {
       <Navbar />
       <MainBanner />
 
-      <p
-        style={{
-          fontSize: "40px",
-          fontWeight: "700",
-          display: "flex",
-          alignSelf: "center",
-        }}
-      >
-        Mobil
-      </p>
       <div
         style={{
           display: "flex",
@@ -40,6 +31,7 @@ function MainPages() {
           width: "100%",
           backgroundColor: "#121b6e",
           position: "relative",
+          marginTop: "20px",
         }}
       >
         <CarouselCar />
@@ -56,7 +48,7 @@ function MainPages() {
             flexDirection: "column",
             backgroundColor: "transparent",
             position: "absolute",
-            right: "300px",
+            right: "100px",
           }}
           onClick={() => setToggle(!toggle)}
         >
@@ -88,6 +80,7 @@ function MainPages() {
               alignSelf: "center",
               justifyContent: "center",
               textAlign: "center",
+              marginTop: "20px",
             }}
           >
             {" "}
@@ -99,7 +92,6 @@ function MainPages() {
               justifyContent: "center",
               alignItems: "center",
               width: "100vw",
-              backgroundColor: "#121b6e",
             }}
           >
             <ListMobil />
@@ -107,27 +99,8 @@ function MainPages() {
         </div>
       )}
 
-      <p
-        style={{
-          fontSize: "40px",
-          fontWeight: "700",
-          display: "flex",
-          alignSelf: "center",
-        }}
-      >
-        {" "}
-        Cara Beli Mobil
-      </p>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          width: "100%",
-          flexDirection: "column",
-          backgroundColor: "#eceeff",
-        }}
-      >
+      <p style={sx.caraBeli}> Cara Beli Mobil</p>
+      <div style={sx.boxTutor}>
         <TutorialBuyCar />
       </div>
     </div>
@@ -135,3 +108,20 @@ function MainPages() {
 }
 
 export default MainPages;
+
+export const sx = {
+  boxTutor: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    flexDirection: "column",
+    backgroundColor: "#eceeff",
+  },
+  caraBeli: {
+    fontSize: "40px",
+    fontWeight: "700",
+    display: "flex",
+    alignSelf: "center",
+  },
+};

@@ -13,16 +13,6 @@ function App() {
   const [count, setCount] = useState(0);
 
   return (
-    // <div
-    //   style={{
-    //     width: "100vw",
-    //     display: "flex",
-    //     justifyContent: "center",
-    //   }}
-    // >
-    //   <MainPages />
-    //   {/* <CarouselCar /> */}
-    // </div>
     <>
       <BrowserRouter>
         <Routes>

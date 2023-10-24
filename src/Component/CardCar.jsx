@@ -9,7 +9,7 @@ function CardCar(items) {
   // console.log({ items });
   const navigate = useNavigate();
   return (
-    <Container>
+    <div>
       <Card
         style={{
           width: "19rem",
@@ -112,7 +112,7 @@ function CardCar(items) {
           </div>
         </Card.Body>
       </Card>
-    </Container>
+    </div>
   );
 }
 

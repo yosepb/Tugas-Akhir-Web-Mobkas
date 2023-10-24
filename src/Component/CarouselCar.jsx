@@ -93,7 +93,7 @@ export default class CarouselCar extends Component {
         <Slider
           {...settings}
           style={{
-            width: "1300px",
+            width: "1310px",
             padding: "20px",
             display: "flex",
             justifyContent: "center",

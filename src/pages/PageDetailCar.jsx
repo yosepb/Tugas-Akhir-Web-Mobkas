@@ -6,9 +6,7 @@ import {
   Container,
   Form,
   Row,
-  DropdownButton,
-  Dropdown,
-  InputGroup,
+  Modal,
 } from "react-bootstrap";
 import WidgetNavbar from "../components/WidgetNavbar";
 import Carousel from "react-bootstrap/Carousel";
@@ -20,143 +18,72 @@ import { GiGearStickPattern } from "react-icons/gi";
 import { MdDateRange } from "react-icons/md";
 import { LuGauge } from "react-icons/lu";
 import { TbNumber } from "react-icons/tb";
-import { BsCardText } from "react-icons/Bs";
 import { BsCartPlus } from "react-icons/Bs";
-
-import DatePicker from "react-datepicker";
-import "react-datepicker/dist/react-datepicker.css";
-import { registerLocale, setDefaultLocale } from "react-datepicker";
-import id from "date-fns/locale/id";
-import Swal from "sweetalert2";
-import withReactContent from "sweetalert2-react-content";
 
 import WidgetCommonIDR from "../components/WidgetCommonIDR";
 import WidgetCommonHumanDate from "../components/WidgetCommonHumanDate";
 
-// import moment from "moment";
-// import "moment/locale/id"; // Atur locale ke bahasa Indonesia
-// moment.locale("id"); // Set locale ke bahasa Indonesia
-
-import { format, parseISO, setMonth } from "date-fns";
-import { id as localeId } from "date-fns/locale"; // Atur locale ke bahasa Indonesia
-
 import configApi from "../config.api";
 import CarModel from "../models/CarModel";
-
-registerLocale("id", id);
-setDefaultLocale("id");
+import CustomerModel from "../models/CustomerModel";
 
 const PageDetailCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
-  const [selectedImage1, setSelectedImage1] = useState(null);
-  const [selectedImage2, setSelectedImage2] = useState(null);
-  const [selectedImage3, setSelectedImage3] = useState(null);
-  const [processedImage1, setProcessedImage1] = useState(null);
-  const [processedImage2, setProcessedImage2] = useState(null);
-  const [processedImage3, setProcessedImage3] = useState(null);
-
   const [carData, setCarData] = useState(CarModel);
+  const [customerData, setCustomerData] = useState(CustomerModel);
 
-  const [selectedItemTransmision, setSelectedItemTransmision] = useState("");
-  const [selectedItemFuel, setSelectedItemFuel] = useState("");
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
 
-  const [selectedDate, setSelectedDate] = useState(null);
+  // memasukan data Customer ke Beckend
+  const post = async () => {
+    try {
+      const response = await fetch(`${configApi.BASE_URL}/customers`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(customerData),
+      });
 
-  const SweetAlert = withReactContent(Swal);
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
 
-  const handleDropdownTransmission = (item) => {
-    setSelectedItemTransmision(item);
-  };
+      let content = await response.json();
+      setCustomerData(content);
 
-  const handleDropdownFuel = (item) => {
-    setSelectedItemFuel(item);
-  };
-
-  const handleImageChange = (event, imageNumber) => {
-    const selectedImage = event.target.files[0];
-    switch (imageNumber) {
-      case 1:
-        setSelectedImage1(selectedImage);
-        break;
-      case 2:
-        setSelectedImage2(selectedImage);
-        break;
-      case 3:
-        setSelectedImage3(selectedImage);
-        break;
-      default:
-        break;
+      // window.open("wa.me", "_blank");
+      wa(content);
+      // console.log(content);
+      // console.log("akan dibuka link ke wa.me");
+    } catch (error) {
+      console.log("Terjadi kesalahan:", error);
     }
   };
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
+  const wa = () => {
+    const number = 62881022378893;
+    window.location.href = `https://wa.me/${number}?text=https://frontend-gilang.netlify.app/detail/${mobilId}%0A%0APerkenalkan, saya: %0ANama%20: ${customerData.nama}%0AKTP: ${customerData.ktp}%0ANomor HP/WA: ${customerData.hp}%0AAlamat: ${customerData.alamat}%0ATertarik dengan mobil yang berada di link diatas. Mohon untuk dibalas.`;
+  };
+
+  // memasukan ke model Customer
+  const handleCustomer = (e) => {
+    const name = e.target.name;
+    let value = e.target.value;
+
+    if (e.target.type === "number") {
+      value = parseInt(value);
+    }
+
+    setCustomerData((values) => ({ ...values, [name]: value }));
   };
 
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    SweetAlert.fire({
-      title: "Tambah",
-      text: "Anda yakin ingin menambahkan data ini ?",
-      icon: "question",
-      showCancelButton: true,
-      confirmButtonText: "Ya",
-      cancelButtonText: "Tidak",
-    }).then((result) => {
-      if (result.isConfirmed) {
-        // Handle form submission
-        Swal.fire("Ditambahkan!", "Data telah ditambahkan.", "success");
-
-        const processImage = (selectedImage, setProcessedImage) => {
-          const reader = new FileReader();
-          reader.onload = function (event) {
-            const img = new Image();
-            img.onload = function () {
-              const canvas = document.createElement("canvas");
-              const maxSize = Math.max(img.width, img.height);
-              const targetSize = 1500; // Ukuran target yang diinginkan
-
-              const scale = targetSize / maxSize;
-              const scaledWidth = img.width * scale;
-              const scaledHeight = img.height * scale;
-
-              canvas.width = targetSize;
-              canvas.height = targetSize;
-
-              const context = canvas.getContext("2d");
-
-              // Mengisi canvas dengan tepian warna
-              context.fillStyle = "#D2E0FB";
-              context.fillRect(0, 0, targetSize, targetSize);
-
-              // Menggambar gambar dengan ukuran yang diubah ke dalam canvas
-              const x = (targetSize - scaledWidth) / 2;
-              const y = (targetSize - scaledHeight) / 2;
-              context.drawImage(img, x, y, scaledWidth, scaledHeight);
-
-              // Mengubah hasil canvas menjadi URL gambar
-              const processedImageUrl = canvas.toDataURL();
-              setProcessedImage(processedImageUrl);
-              console.log("gambar baru diproses secara statis");
-            };
-
-            img.src = event.target.result;
-          };
-
-          reader.readAsDataURL(selectedImage);
-        };
-
-        if (selectedImage1) {
-          processImage(selectedImage1, setProcessedImage1);
-        }
-        if (selectedImage2) {
-          processImage(selectedImage2, setProcessedImage2);
-        }
-        if (selectedImage3) {
-          processImage(selectedImage3, setProcessedImage3);
-        }
-      }
-    });
+    // console.log("HALOO");
+    post();
   };
 
   useEffect(() => {
@@ -175,8 +102,7 @@ const PageDetailCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
-
+          // console.log(data);
           // handel tanggal
           // data.stnk = setMonth(data.stnk, -1);
           // data.stnk = "2023-05-30T17:00:00.000Z";
@@ -318,7 +244,7 @@ const PageDetailCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
                             Harga: <WidgetCommonIDR value={carData.harga} />
                           </Col>
                           <Col xs={4} className="d-flex justify-content-end">
-                            <Button variant="success">
+                            <Button variant="success" onClick={handleShow}>
                               <BsCartPlus /> Beli via WhatsApp
                             </Button>
                           </Col>
@@ -331,6 +257,85 @@ const PageDetailCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
             </Card>
           </Col>
         </Row>
+
+        {/* modal disini untuk tampil customer input */}
+        <Modal
+          show={show}
+          onHide={handleClose}
+          size="lg"
+          backdrop="static"
+          keyboard={false}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Masukan Data Pembeli</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <Form onSubmit={handleSubmit}>
+              <Row>
+                <Col>
+                  <Form.Group controlId="nama" className="mb-3">
+                    <Form.Label>Nama Pembeli</Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder="Masukan Nama Anda"
+                      name="nama"
+                      value={customerData.nama}
+                      onChange={handleCustomer}
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="ktp" className="mt-3 mb-3">
+                    <Form.Label>KTP Pembeli</Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder="Masukan KTP Anda"
+                      maxLength={16}
+                      pattern="\d*"
+                      name="ktp"
+                      value={customerData.ktp}
+                      onChange={handleCustomer}
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="hp" className="mt-3 mb-3">
+                    <Form.Label>Nomor HP/WhatsApp Pembeli</Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder="Masukan Nomor HP/WA Anda"
+                      maxLength={14}
+                      pattern="\d*"
+                      name="hp"
+                      value={customerData.hp}
+                      onChange={handleCustomer}
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="alamat" className="mt-3 mb-3">
+                    <Form.Label>Alamat Pembeli</Form.Label>
+                    <Form.Control
+                      required
+                      type="text"
+                      placeholder="Masukan Alamat Anda"
+                      name="alamat"
+                      value={customerData.alamat}
+                      onChange={handleCustomer}
+                    />
+                  </Form.Group>
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <Button type="submit" variant="primary" className="mt-3 mb-3">
+                    <BsCartPlus /> Beli
+                  </Button>
+                </Col>
+              </Row>
+            </Form>
+          </Modal.Body>
+        </Modal>
       </Container>
     </>
   );

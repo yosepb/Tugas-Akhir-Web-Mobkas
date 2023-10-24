@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Card,
@@ -30,20 +30,31 @@ import id from "date-fns/locale/id";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 
-import Carry1 from "../assets/carry (1).jpg";
-import Carry2 from "../assets/carry (2).jpg";
-import Carry3 from "../assets/carry (3).jpg";
+import WidgetCommonIDR from "../components/WidgetCommonIDR";
+import WidgetCommonHumanDate from "../components/WidgetCommonHumanDate";
+
+// import moment from "moment";
+// import "moment/locale/id"; // Atur locale ke bahasa Indonesia
+// moment.locale("id"); // Set locale ke bahasa Indonesia
+
+import { format, parseISO, setMonth } from "date-fns";
+import { id as localeId } from "date-fns/locale"; // Atur locale ke bahasa Indonesia
+
+import configApi from "../config.api";
+import CarModel from "../models/CarModel";
 
 registerLocale("id", id);
 setDefaultLocale("id");
 
-const PageDetailCar = () => {
+const PageDetailCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
   const [selectedImage1, setSelectedImage1] = useState(null);
   const [selectedImage2, setSelectedImage2] = useState(null);
   const [selectedImage3, setSelectedImage3] = useState(null);
   const [processedImage1, setProcessedImage1] = useState(null);
   const [processedImage2, setProcessedImage2] = useState(null);
   const [processedImage3, setProcessedImage3] = useState(null);
+
+  const [carData, setCarData] = useState(CarModel);
 
   const [selectedItemTransmision, setSelectedItemTransmision] = useState("");
   const [selectedItemFuel, setSelectedItemFuel] = useState("");
@@ -148,6 +159,55 @@ const PageDetailCar = () => {
     });
   };
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${configApi.BASE_URL}/produk/${mobilId}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+
+          // handel tanggal
+          // data.stnk = setMonth(data.stnk, -1);
+          // data.stnk = "2023-05-30T17:00:00.000Z";
+          console.log(data.stnk);
+          // data.stnk = format(
+          //   setMonth(parseISO(data.stnk), +3).setHours(0, 0, 0, 0),
+          //   "MMMM, yyyy",
+          //   {
+          //     locale: localeId,
+          //   }
+          // );
+          // data.stnk = format(
+          //   parseISO(data.stnk).setHours(0, 0, 0, 0),
+          //   "MMMM, yyyy",
+          //   {
+          //     locale: localeId,
+          //   }
+          // );
+
+          setCarData(data);
+        } else {
+          console.log("Gagal mendapatkan data mobil");
+        }
+      } catch (error) {
+        console.log("Terjadi kesalahan:", error);
+      }
+    };
+
+    fetchData();
+  }, [mobilId]);
+
   return (
     <>
       <WidgetNavbar />
@@ -157,7 +217,7 @@ const PageDetailCar = () => {
             <Card>
               <Card.Body>
                 <Card.Title className="text-center">
-                  Detail Kendaraan (Nama)
+                  Detail Kendaraan {carData.nama}
                 </Card.Title>
                 <Row className="mt-4">
                   <Col className="mb-4">
@@ -170,17 +230,17 @@ const PageDetailCar = () => {
                         <Carousel slide={false} data-bs-theme="dark">
                           <Carousel.Item>
                             <div className="carousel-image-wrapper">
-                              <img src={Carry1} alt="" width={300} />
+                              <img src={carData.foto[0]} alt="" width={300} />
                             </div>
                           </Carousel.Item>
                           <Carousel.Item>
                             <div className="carousel-image-wrapper">
-                              <img src={Carry2} alt="" width={300} />
+                              <img src={carData.foto[1]} alt="" width={300} />
                             </div>
                           </Carousel.Item>
                           <Carousel.Item>
                             <div className="carousel-image-wrapper">
-                              <img src={Carry3} alt="" width={300} />
+                              <img src={carData.foto[2]} alt="" width={300} />
                             </div>
                           </Carousel.Item>
                         </Carousel>
@@ -192,51 +252,49 @@ const PageDetailCar = () => {
                                 <Row>
                                   <Col>
                                     <h6 className="text-center mt-3">
-                                      <LuGauge /> Total Kilometer
+                                      <LuGauge /> {carData.kilometer} Km
                                     </h6>
                                   </Col>
                                   <Col>
                                     <h6 className="text-center mt-3">
-                                      <MdDateRange /> 1999
+                                      <MdDateRange /> {carData.tahun}
                                     </h6>
                                   </Col>
                                   <Col>
                                     <h6 className="text-center mt-3">
-                                      <GiGearStickPattern /> Manual
-                                    </h6>
-                                  </Col>
-                                </Row>
-                                <Row>
-                                  <Col>
-                                    <h6 className="text-center mt-3">
-                                      <TbNumber /> D1194VS
-                                    </h6>
-                                  </Col>
-                                  <Col>
-                                    <h6 className="text-center mt-3">
-                                      <BsFuelPump /> Listrik
-                                    </h6>
-                                  </Col>
-                                  <Col>
-                                    <h6 className="text-center mt-3">
-                                      <TbLicense /> Maret, 2023
+                                      <GiGearStickPattern /> {carData.transmisi}
                                     </h6>
                                   </Col>
                                 </Row>
                                 <Row>
                                   <Col>
                                     <h6 className="text-center mt-3">
-                                      <IoColorPaletteOutline /> Putih
+                                      <TbNumber /> {carData.plat_nomor}
                                     </h6>
                                   </Col>
                                   <Col>
                                     <h6 className="text-center mt-3">
-                                      <GoLocation /> Bandung
+                                      <BsFuelPump /> {carData.bahan_bakar}
                                     </h6>
                                   </Col>
                                   <Col>
                                     <h6 className="text-center mt-3">
-                                      <BsCardText /> 123123
+                                      <TbLicense />{" "}
+                                      <WidgetCommonHumanDate
+                                        date={carData.stnk}
+                                      />
+                                    </h6>
+                                  </Col>
+                                </Row>
+                                <Row>
+                                  <Col>
+                                    <h6 className="text-center mt-3">
+                                      <IoColorPaletteOutline /> {carData.warna}
+                                    </h6>
+                                  </Col>
+                                  <Col>
+                                    <h6 className="text-center mt-3">
+                                      <GoLocation /> {carData.lokasi}
                                     </h6>
                                   </Col>
                                 </Row>
@@ -257,7 +315,7 @@ const PageDetailCar = () => {
                             xs={8}
                             className="d-flex align-items-center justify-content-left"
                           >
-                            Harga: Rp. 900.000.000,00-
+                            Harga: <WidgetCommonIDR value={carData.harga} />
                           </Col>
                           <Col xs={4} className="d-flex justify-content-end">
                             <Button variant="success">
@@ -268,119 +326,6 @@ const PageDetailCar = () => {
                       </Card.Body>
                     </Card>
                   </Col>
-                  {/* <Col className="mb-4">
-                    <Card
-                      style={{
-                        height: "100%",
-                        backgroundColor: "#F5F5F5",
-                      }}
-                    >
-                      <Card.Body>
-                        <Card.Title>Opsi Pembelian</Card.Title>
-                        <Card className="mt-4">
-                          <Card.Body>
-                            <Row className="d-flex align-items-center justify-content-center">
-                              <Col className="text-center" xs={3}>
-                                <h6>5 Tahun</h6>
-                              </Col>
-                              <Col className="text-center">
-                                <h6>Bayar Pertama</h6>
-                              </Col>
-                              <Col className="text-center">
-                                <h6>Cicilan/Bulan</h6>
-                              </Col>
-                              <Col className="text-center" xs={2}>
-                                <Button variant="primary">
-                                  <BsCartPlus />
-                                </Button>
-                              </Col>
-                            </Row>
-                          </Card.Body>
-                        </Card>
-                        <Card className="mt-4">
-                          <Card.Body>
-                            <Row className="d-flex align-items-center justify-content-center">
-                              <Col className="text-center" xs={3}>
-                                <h6>4 Tahun</h6>
-                              </Col>
-                              <Col className="text-center">
-                                <h6>Bayar Pertama</h6>
-                              </Col>
-                              <Col className="text-center">
-                                <h6>Cicilan/Bulan</h6>
-                              </Col>
-                              <Col className="text-center" xs={2}>
-                                <Button variant="primary">
-                                  <BsCartPlus />
-                                </Button>
-                              </Col>
-                            </Row>
-                          </Card.Body>
-                        </Card>
-
-                        <Card className="mt-4">
-                          <Card.Body>
-                            <Row className="d-flex align-items-center justify-content-center">
-                              <Col className="text-center" xs={3}>
-                                <h6>3 Tahun</h6>
-                              </Col>
-                              <Col className="text-center">
-                                <h6>Bayar Pertama</h6>
-                              </Col>
-                              <Col className="text-center">
-                                <h6>Cicilan/Bulan</h6>
-                              </Col>
-                              <Col className="text-center" xs={2}>
-                                <Button variant="primary">
-                                  <BsCartPlus />
-                                </Button>
-                              </Col>
-                            </Row>
-                          </Card.Body>
-                        </Card>
-                        <Card className="mt-4">
-                          <Card.Body>
-                            <Row className="d-flex align-items-center justify-content-center">
-                              <Col className="text-center" xs={3}>
-                                <h6>2 Tahun</h6>
-                              </Col>
-                              <Col className="text-center">
-                                <h6>Bayar Pertama</h6>
-                              </Col>
-                              <Col className="text-center">
-                                <h6>Cicilan/Bulan</h6>
-                              </Col>
-                              <Col className="text-center" xs={2}>
-                                <Button variant="primary">
-                                  <BsCartPlus />
-                                </Button>
-                              </Col>
-                            </Row>
-                          </Card.Body>
-                        </Card>
-                        <Card className="mt-4">
-                          <Card.Body>
-                            <Row className="d-flex align-items-center justify-content-center">
-                              <Col className="text-center" xs={3}>
-                                <h6>1 Tahun</h6>
-                              </Col>
-                              <Col className="text-center">
-                                <h6>Bayar Pertama</h6>
-                              </Col>
-                              <Col className="text-center">
-                                <h6>Cicilan/Bulan</h6>
-                              </Col>
-                              <Col className="text-center" xs={2}>
-                                <Button variant="primary">
-                                  <BsCartPlus />
-                                </Button>
-                              </Col>
-                            </Row>
-                          </Card.Body>
-                        </Card>
-                      </Card.Body>
-                    </Card>
-                  </Col> */}
                 </Row>
               </Card.Body>
             </Card>

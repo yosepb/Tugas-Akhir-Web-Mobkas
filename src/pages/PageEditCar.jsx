@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Card,
@@ -19,16 +19,20 @@ import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import configApi from "../config.api";
 
+import CarModel from "../models/CarModel";
+
 registerLocale("id", id);
 setDefaultLocale("id");
 
-const PageEditCar = () => {
+const PageEditCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
   const [selectedImage1, setSelectedImage1] = useState(null);
   const [selectedImage2, setSelectedImage2] = useState(null);
   const [selectedImage3, setSelectedImage3] = useState(null);
   const [processedImage1, setProcessedImage1] = useState(null);
   const [processedImage2, setProcessedImage2] = useState(null);
   const [processedImage3, setProcessedImage3] = useState(null);
+
+  const [carData, setCarData] = useState(CarModel);
 
   const [selectedItemTransmision, setSelectedItemTransmision] = useState("");
   const [selectedItemFuel, setSelectedItemFuel] = useState("");
@@ -145,16 +149,23 @@ const PageEditCar = () => {
         console.log(payload);
 
         try {
-          const response = await fetch(`${configApi.BASE_URL}/produk`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(payload),
-          });
+          const response = await fetch(
+            `${configApi.BASE_URL}/produk/${mobilId}`,
+            {
+              method: "PUT",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify(payload),
+            }
+          );
 
           if (response.ok) {
-            console.log("Data berhasil dikirim ke endpoint POST /produk");
+            console.log("Data berhasil dikirim ke endpoint PUT /produk");
+
+            // refresh Halaman
+            window.location.reload();
           } else {
             console.log("Gagal mengirim data ke endpoint POST /produk");
           }
@@ -165,6 +176,35 @@ const PageEditCar = () => {
       }
     });
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await fetch(
+          `${configApi.BASE_URL}/produk/${mobilId}`,
+          {
+            method: "GET",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log(data);
+          setCarData(data);
+        } else {
+          console.log("Gagal mendapatkan data mobil");
+        }
+      } catch (error) {
+        console.log("Terjadi kesalahan:", error);
+      }
+    };
+
+    fetchData();
+  }, [mobilId]);
 
   return (
     <>
@@ -185,6 +225,7 @@ const PageEditCar = () => {
                       name="nameCar"
                       type="text"
                       placeholder="Masukan Nama"
+                      defaultValue={carData.nama}
                     />
                   </Form.Group>
 
@@ -195,6 +236,7 @@ const PageEditCar = () => {
                       name="kilometerCar"
                       type="number"
                       placeholder="Masukan Total Kilometer"
+                      defaultValue={carData.kilometer}
                     />
                   </Form.Group>
 
@@ -205,6 +247,7 @@ const PageEditCar = () => {
                       name="yearCar"
                       type="number"
                       placeholder="Masukan Tahun Produksi"
+                      defaultValue={carData.tahun}
                     />
                   </Form.Group>
 
@@ -226,8 +269,11 @@ const PageEditCar = () => {
                         required
                         disabled
                         name="transmissionCar"
-                        value={selectedItemTransmision}
+                        // value={selectedItemTransmision}
                         placeholder="👈 pilih di sini"
+                        defaultValue={
+                          selectedItemTransmision || carData.transmisi
+                        }
                       />
                     </InputGroup>
                   </Form.Group>
@@ -242,6 +288,7 @@ const PageEditCar = () => {
                       maxLength={9}
                       placeholder="Masukan Plat Nomor"
                       title="Plat nomor harus terdiri dari huruf kapital dan/atau angka"
+                      defaultValue={carData.plat_nomor}
                     />
                   </Form.Group>
 
@@ -264,8 +311,9 @@ const PageEditCar = () => {
                         required
                         disabled
                         name="fuelCar"
-                        value={selectedItemFuel}
+                        // value={selectedItemFuel}
                         placeholder="👈 pilih di sini"
+                        defaultValue={selectedItemFuel || carData.bahan_bakar}
                       />
                     </InputGroup>
                   </Form.Group>
@@ -291,6 +339,7 @@ const PageEditCar = () => {
                       required
                       type="file"
                       onChange={(event) => handleImageChange(event, 1)}
+                      defaultValue={carData.foto[0]}
                     />
                   </Form.Group>
 
@@ -313,6 +362,33 @@ const PageEditCar = () => {
                   <div className="gap-2 mb-3">
                     <Button type="submit">Edit</Button>
                   </div>
+                  {
+                    <div>
+                      <img
+                        src={carData.foto[0]}
+                        alt="Gambar 1 Kosong"
+                        style={{ maxWidth: 300 }}
+                      />
+                    </div>
+                  }
+                  {
+                    <div>
+                      <img
+                        src={carData.foto[1]}
+                        alt="Gambar 2 Kosong"
+                        style={{ maxWidth: 300 }}
+                      />
+                    </div>
+                  }
+                  {
+                    <div>
+                      <img
+                        src={carData.foto[2]}
+                        alt="Gambar 3 Kosong"
+                        style={{ maxWidth: 300 }}
+                      />
+                    </div>
+                  }
                 </Form>
               </Card.Body>
             </Card>

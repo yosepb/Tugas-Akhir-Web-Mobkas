@@ -1,16 +1,37 @@
 import React, { useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import img1 from "../assets/backLogin.jpg";
+import configApi from "../config.api";
+import { useNavigate } from "react-router-dom";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
-  const handleLogin = () => {
-    // Implement your login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+  const navigate = useNavigate();
+
+  const handleLogin = async () => {
+    try {
+      const response = await fetch(`${configApi.BASE_URL}/users/signin`, {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+
+      const content = await response.json();
+      localStorage.setItem("token", content.token);
+      return navigate("/admin");
+    } catch (error) {
+      alert(error);
+    }
   };
 
   const boxStyle = {

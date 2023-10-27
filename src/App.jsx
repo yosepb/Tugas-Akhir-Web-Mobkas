@@ -23,7 +23,7 @@ function App() {
         <Routes>
           <Route path="/" element={<PageLayout />}>
             <Route index element={<MainPages />} />
-            <Route path="/detail" element={<PageDetailCar />} />
+            <Route path="/detail/:mobilId" element={<PageDetailCar />} />
             <Route path="/admin" element={<MainPagesAdmin />} />
             <Route path="/admin/login" element={<PagesLogin />} />
             <Route

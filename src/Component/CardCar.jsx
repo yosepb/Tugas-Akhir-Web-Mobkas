@@ -1,13 +1,35 @@
-import React from "react";
+import { React, useState, useEffect } from "react";
 import { Container, Card, Button } from "react-bootstrap";
 import { BsSpeedometer2 } from "react-icons/Bs";
 import { RiSpeedUpLine } from "react-icons/Ri";
 import { AiOutlineHeart } from "react-icons/Ai";
 import { useNavigate } from "react-router-dom";
 
-function CardCar(items) {
+import CarModel from "../models/CarModel";
+import WidgetCommonIDR from "../components/WidgetCommonIDR";
+
+export default function CardCar({ product }) {
   // console.log({ items });
+  // console.log(items);
+
+  const [carData, setCarData] = useState(CarModel);
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setCarData(product);
+    // console.log("console log dari CardCar", carData);
+    // console.log(carData);
+  }, [product]);
+
+  // useEffect(() => {
+  //   console.log("console log dari CardCar", carData);
+  // }, [carData]);
+
+  const handleCardClick = (mobilId) => {
+    navigate(`/detail/${mobilId}`); // Melakukan navigasi ke '/detail/:id'
+  };
+
   return (
     <div>
       <Card
@@ -21,12 +43,15 @@ function CardCar(items) {
           borderRadius: "20px",
           cursor: "pointer",
         }}
-        onClick={() => navigate("/detail")}
+        // onClick={() => navigate("/detail")}
+        // onClick={() => navigate(`/detail/${carData._id}`)}
+        onClick={() => handleCardClick(carData._id)}
       >
         <img
+          src={carData.foto[0]}
           style={{
             width: "100%",
-            height: "200px",
+            height: "300px",
             borderRadius: "20px",
           }}
         />
@@ -52,7 +77,7 @@ function CardCar(items) {
                   gap: "130px",
                 }}
               >
-                <div>{items.items.title}</div>
+                <div>{carData.nama}</div>
 
                 <AiOutlineHeart
                   style={{
@@ -68,7 +93,9 @@ function CardCar(items) {
                 alignItems: "start",
               }}
             >
-              <p> Rp. 4.300.000 /bln</p>
+              <p>
+                <WidgetCommonIDR value={carData.harga} />
+              </p>
             </div>
             <div
               style={{
@@ -89,9 +116,8 @@ function CardCar(items) {
                     width: "20px",
                     height: "20px",
                   }}
-                />
-
-                <p>16.736 km</p>
+                />{" "}
+                {carData.kilometer} km
               </div>
               <div
                 style={{
@@ -105,8 +131,8 @@ function CardCar(items) {
                     width: "20px",
                     height: "20px",
                   }}
-                />
-                <p> Automatic</p>
+                />{" "}
+                {carData.transmisi}
               </div>
             </div>
           </div>
@@ -115,5 +141,3 @@ function CardCar(items) {
     </div>
   );
 }
-
-export default CardCar;

@@ -1,140 +1,31 @@
 import React, { useEffect, useState } from "react";
 import CardCar from "./CardCar";
 import ProductFilter from "./Filter";
+import configApi from "../config.api";
+import CarModel from "../models/CarModel";
 
 function ListMobil() {
-  const data = [
-    {
-      title: "terjual",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 1,
-      type: "Terjual",
-    },
-    {
-      title: "terjual",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 2,
-      type: "Terjual",
-    },
-    {
-      title: "terjual",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 3,
-      type: "Terjual",
-    },
-    {
-      title: "terjual",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 4,
-      type: "Terjual",
-    },
-    {
-      title: "terjual",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 5,
-      type: "Terjual",
-    },
-    {
-      title: "terjual",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 6,
-      type: "Terjual",
-    },
-    {
-      title: "tersedia",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 6,
-      type: "tersedia",
-    },
-    {
-      title: "tersedia",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 7,
-      type: "tersedia",
-    },
-    {
-      title: "tersedia",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 8,
-      type: "tersedia",
-    },
-    {
-      title: "tersedia",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 9,
-      type: "tersedia",
-    },
-    {
-      title: "tersedia",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 10,
-      type: "tersedia",
-    },
-    {
-      title: "Card 1",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 11,
-      type: "Diproses",
-    },
-    {
-      title: "Card 1",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 12,
-      type: "Diproses",
-    },
-    {
-      title: "Card 1",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 13,
-      type: "Diproses",
-    },
-    {
-      title: "Card 1",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 14,
-      type: "Diproses",
-    },
-    {
-      title: "Card 1",
-      description: "Description for Card 1",
-      imageUrl: "https://via.placeholder.com/200x200",
-      id: 15,
-      type: "tersedia",
-    },
-  ];
-  const [products, setProducts] = useState(data);
+  const [products, setProducts] = useState([]);
   const [filter, setFilter] = useState("");
 
-  const filteredProducts = data.filter((data) => {
-    if (filter === "tersedia") {
-      return data.type === "tersedia";
-    } else if (filter === "diproses") {
-      return data.type === "Diproses";
-    } else if (filter === "terjual") {
-      return data.type === "Terjual";
+  useEffect(() => {
+    fetch(`${configApi.BASE_URL}/produk`)
+      .then((response) => response.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error(error));
+  }, [filter]);
+
+  const filteredProducts = products.filter((item) => {
+    if (filter === "Tersedia") {
+      return item.status === "Tersedia";
+    } else if (filter === "Dipesan") {
+      return item.status === "Dipesan";
+    } else if (filter === "Terjual") {
+      return item.status === "Terjual";
     }
     return true;
   });
-  useEffect(() => {
-    setProducts(filteredProducts);
-  }, [filter]);
 
-  console.log(products);
   return (
     <div
       style={{
@@ -165,9 +56,10 @@ function ListMobil() {
           alignItems: "start",
         }}
       >
-        {products.map((item) => (
-          <CardCar key={data.id} items={item} />
-        ))}
+        {filteredProducts.length > 0 &&
+          filteredProducts.map((product) => (
+            <CardCar key={product._id} product={product} />
+          ))}
       </div>
     </div>
   );

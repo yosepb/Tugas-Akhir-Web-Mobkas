@@ -11,10 +11,13 @@ function WidgetNavbar() {
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <NavDropdown title="Nav User" id="basic-nav-dropdown">
+            <Nav.Item>
+              <Nav.Link href="/admin/login">Admin Login</Nav.Link>
+            </Nav.Item>
+            {/* <NavDropdown title="Nav User" id="basic-nav-dropdown">
               <NavDropdown.Item href="/detail">Detail Mobil</NavDropdown.Item>
-            </NavDropdown>
-            <NavDropdown title="Nav Admin" id="basic-nav-dropdown">
+            </NavDropdown> */}
+            {/* <NavDropdown title="Nav Admin" id="basic-nav-dropdown">
               <NavDropdown.Item href="/admin/login">
                 Login Admin
               </NavDropdown.Item>
@@ -26,7 +29,7 @@ function WidgetNavbar() {
                 Input Data
               </NavDropdown.Item>
               <NavDropdown.Item href="/admin/edit">Edit Data</NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

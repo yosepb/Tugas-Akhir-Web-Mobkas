@@ -196,7 +196,9 @@ const PageInputCar = () => {
                     <Form.Control
                       required
                       name="kilometerCar"
-                      type="number"
+                      type="text"
+                      pattern="[0-9]+"
+                      maxLength={6}
                       placeholder="Masukan Total Kilometer"
                     />
                   </Form.Group>

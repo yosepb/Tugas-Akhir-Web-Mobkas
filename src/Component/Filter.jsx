@@ -7,13 +7,13 @@ const ProductFilter = ({ setFilter }) => {
         <button onClick={() => setFilter("all")} style={sx.buton}>
           All
         </button>
-        <button onClick={() => setFilter("tersedia")} style={sx.buton}>
+        <button onClick={() => setFilter("Tersedia")} style={sx.buton}>
           Tersedia
         </button>
-        <button onClick={() => setFilter("diproses")} style={sx.buton}>
-          Diproses
+        <button onClick={() => setFilter("Dipesan")} style={sx.buton}>
+          Dipesan
         </button>
-        <button onClick={() => setFilter("terjual")} style={sx.buton}>
+        <button onClick={() => setFilter("Terjual")} style={sx.buton}>
           Terjual
         </button>
       </div>

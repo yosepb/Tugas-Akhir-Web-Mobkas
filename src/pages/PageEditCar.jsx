@@ -10,6 +10,9 @@ import {
   Dropdown,
   InputGroup,
 } from "react-bootstrap";
+
+import { useParams } from "react-router-dom";
+
 import WidgetNavbar from "../components/WidgetNavbar";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
@@ -24,7 +27,10 @@ import CarModel from "../models/CarModel";
 registerLocale("id", id);
 setDefaultLocale("id");
 
-const PageEditCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
+// const PageEditCar = ({ mobilId }) => {
+const PageEditCar = () => {
+  const { mobilId } = useParams();
+
   const [selectedImage1, setSelectedImage1] = useState(null);
   const [selectedImage2, setSelectedImage2] = useState(null);
   const [selectedImage3, setSelectedImage3] = useState(null);
@@ -336,7 +342,6 @@ const PageEditCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
                   <Form.Group controlId="imageUpload1" className="mb-3">
                     <Form.Label>Gambar Mobil 1</Form.Label>
                     <Form.Control
-                      required
                       type="file"
                       onChange={(event) => handleImageChange(event, 1)}
                       defaultValue={carData.foto[0]}
@@ -344,7 +349,7 @@ const PageEditCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
                   </Form.Group>
 
                   <Form.Group controlId="imageUpload2" className="mb-3">
-                    <Form.Label>Gambar Mobil 2 (opsional)</Form.Label>
+                    <Form.Label>Gambar Mobil 2</Form.Label>
                     <Form.Control
                       type="file"
                       onChange={(event) => handleImageChange(event, 2)}
@@ -352,7 +357,7 @@ const PageEditCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
                   </Form.Group>
 
                   <Form.Group controlId="imageUpload3" className="mb-3">
-                    <Form.Label>Gambar Mobil 3 (opsional)</Form.Label>
+                    <Form.Label>Gambar Mobil 3</Form.Label>
                     <Form.Control
                       type="file"
                       onChange={(event) => handleImageChange(event, 3)}

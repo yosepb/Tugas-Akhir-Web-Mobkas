@@ -8,6 +8,9 @@ import {
   Row,
   Modal,
 } from "react-bootstrap";
+
+import { useParams } from "react-router-dom";
+
 import WidgetNavbar from "../components/WidgetNavbar";
 import Carousel from "react-bootstrap/Carousel";
 import { BsFuelPump } from "react-icons/Bs";
@@ -27,7 +30,10 @@ import configApi from "../config.api";
 import CarModel from "../models/CarModel";
 import CustomerModel from "../models/CustomerModel";
 
-const PageDetailCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
+// const PageDetailCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
+const PageDetailCar = () => {
+  const { mobilId } = useParams();
+
   const [carData, setCarData] = useState(CarModel);
   const [customerData, setCustomerData] = useState(CustomerModel);
 

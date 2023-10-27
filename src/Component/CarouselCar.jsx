@@ -1,6 +1,7 @@
-import React, { Component } from "react";
+import React, { useState, useEffect } from "react";
 import Slider from "react-slick";
 import CardCar from "./CardCar";
+import configApi from "../config.api";
 
 function SampleNextArrow(props) {
   const { className, style, onClick } = props;
@@ -36,75 +37,78 @@ function SamplePrevArrow(props) {
   );
 }
 
-export default class CarouselCar extends Component {
-  render() {
-    const settings = {
-      dots: true,
-      infinite: true,
-      speed: 500,
-      slidesToShow: 4,
-      slidesToScroll: 1,
-      autoplay: true,
-      autoplaySpeed: 5000,
-      cssEase: "linear",
-      nextArrow: <SampleNextArrow />,
-      prevArrow: <SamplePrevArrow />,
-    };
-    const cardData = [
-      {
-        title: "Card 1",
-        description: "Description for Card 1",
-        imageUrl: "https://via.placeholder.com/200x200",
-        id: 1,
-      },
-      {
-        title: "Card 1",
-        description: "Description for Card 1",
-        imageUrl: "https://via.placeholder.com/200x200",
-        id: 2,
-      },
-      {
-        title: "Card 1",
-        description: "Description for Card 1",
-        imageUrl: "https://via.placeholder.com/200x200",
-        id: 3,
-      },
-      {
-        title: "Card 1",
-        description: "Description for Card 1",
-        imageUrl: "https://via.placeholder.com/200x200",
-        id: 3,
-      },
-      {
-        title: "Card 1",
-        description: "Description for Card 1",
-        imageUrl: "https://via.placeholder.com/200x200",
-        id: 3,
-      },
-      {
-        title: "Card 1",
-        description: "Description for Card 1",
-        imageUrl: "https://via.placeholder.com/200x200",
-        id: 3,
-      },
-    ];
-    return (
-      <div style={{}}>
-        <Slider
-          {...settings}
-          style={{
-            width: "1310px",
-            padding: "20px",
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "40px",
-          }}
-        >
-          {cardData.map((item) => (
-            <CardCar key={item.id} items={item} />
+export default function CarouselCar() {
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetch(`${configApi.BASE_URL}/produk`)
+      .then((response) => response.json())
+      .then((data) => setProducts(data))
+      .catch((error) => console.error(error));
+  }, []);
+
+  const settings = {
+    dots: true,
+    infinite: true,
+    speed: 500,
+    slidesToShow: 4,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 5000,
+    cssEase: "linear",
+    nextArrow: <SampleNextArrow />,
+    prevArrow: <SamplePrevArrow />,
+  };
+
+  // const cardData = [
+  //   {
+  //     title: "Card 1",
+  //     description: "Description for Card 1",
+  //     imageUrl: "https://via.placeholder.com/200x200",
+  //     id: 1,
+  //   },
+  //   {
+  //     title: "Card 2",
+  //     description: "Description for Card 1",
+  //     imageUrl: "https://via.placeholder.com/200x200",
+  //     id: 2,
+  //   },
+  //   {
+  //     title: "Card 3",
+  //     description: "Description for Card 1",
+  //     imageUrl: "https://via.placeholder.com/200x200",
+  //     id: 3,
+  //   },
+  //   {
+  //     title: "Card 4",
+  //     description: "Description for Card 1",
+  //     imageUrl: "https://via.placeholder.com/200x200",
+  //     id: 4,
+  //   },
+  //   {
+  //     title: "Card 5",
+  //     description: "Description for Card 1",
+  //     imageUrl: "https://via.placeholder.com/200x200",
+  //     id: 5,
+  //   },
+  //   {
+  //     title: "Card 6",
+  //     description: "Description for Card 1",
+  //     imageUrl: "https://via.placeholder.com/200x200",
+  //     id: 6,
+  //   },
+  // ];
+
+  // console.log(products);
+
+  return (
+    <div style={{ width: "1310px", padding: "20px", marginTop: "40px" }}>
+      <Slider {...settings}>
+        {products.length > 0 &&
+          products.map((product) => (
+            <CardCar key={product._id} product={product} />
           ))}
-        </Slider>
-      </div>
-    );
-  }
+      </Slider>
+    </div>
+  );
 }

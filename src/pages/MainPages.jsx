@@ -5,7 +5,6 @@ import MainBanner from "../Component/MainBanner";
 import TutorialBuyCar from "../Component/TutorialBuyCar";
 import ListMobil from "../Component/ListMobil";
 import { BiSolidDownArrow } from "react-icons/Bi";
-import ProductFilter from "../Component/Filter";
 
 function MainPages() {
   const [toggle, setToggle] = useState(false);

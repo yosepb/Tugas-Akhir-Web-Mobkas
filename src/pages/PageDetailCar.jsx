@@ -71,7 +71,8 @@ const PageDetailCar = () => {
 
   const wa = () => {
     const number = 62881022378893;
-    window.location.href = `https://wa.me/${number}?text=https://frontend-gilang.netlify.app/detail/${mobilId}%0A%0APerkenalkan, saya: %0ANama%20: ${customerData.nama}%0AKTP: ${customerData.ktp}%0ANomor HP/WA: ${customerData.hp}%0AAlamat: ${customerData.alamat}%0ATertarik dengan mobil yang berada di link diatas. Mohon untuk dibalas.`;
+    const sites = "http://localhost:5173/detail";
+    window.location.href = `https://wa.me/${number}?text=${sites}/${mobilId}%0A%0APerkenalkan, saya: %0ANama%20: ${customerData.nama}%0AKTP: ${customerData.ktp}%0ANomor HP/WA: ${customerData.hp}%0AAlamat: ${customerData.alamat}%0ATertarik dengan mobil yang berada di link diatas. Mohon untuk dibalas.`;
   };
 
   // memasukan ke model Customer
@@ -230,9 +231,18 @@ const PageDetailCar = () => {
                             Harga: <WidgetCommonIDR value={carData.harga} />
                           </Col>
                           <Col xs={4} className="d-flex justify-content-end">
-                            <Button variant="success" onClick={handleShow}>
-                              <BsCartPlus /> Beli via WhatsApp
-                            </Button>
+                            {!(
+                              carData.status === "Dipesan" ||
+                              carData.status === "Terjual"
+                            ) ? (
+                              <Button variant="success" onClick={handleShow}>
+                                <BsCartPlus /> Beli via WhatsApp
+                              </Button>
+                            ) : (
+                              <h3>
+                                <i>Tidak Tersedia</i>
+                              </h3>
+                            )}
                           </Col>
                         </Row>
                       </Card.Body>

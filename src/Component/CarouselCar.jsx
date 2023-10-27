@@ -105,9 +105,14 @@ export default function CarouselCar() {
     <div style={{ width: "1310px", padding: "20px", marginTop: "40px" }}>
       <Slider {...settings}>
         {products.length > 0 &&
-          products.map((product) => (
-            <CardCar key={product._id} product={product} />
-          ))}
+          products.map((product) => {
+            if (
+              !(product.status === "Dipesan" || product.status === "Terjual")
+            ) {
+              return <CardCar key={product._id} product={product} />;
+            }
+            console.log(product.status);
+          })}
       </Slider>
     </div>
   );

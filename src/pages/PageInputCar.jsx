@@ -32,7 +32,6 @@ const PageInputCar = () => {
 
   const [selectedItemTransmision, setSelectedItemTransmision] = useState("");
   const [selectedItemFuel, setSelectedItemFuel] = useState("");
-
   const [selectedDate, setSelectedDate] = useState(null);
 
   const SweetAlert = withReactContent(Swal);
@@ -43,6 +42,10 @@ const PageInputCar = () => {
 
   const handleDropdownFuel = (item) => {
     setSelectedItemFuel(item);
+  };
+
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
   };
 
   const handleImageChange = (event, imageNumber) => {
@@ -111,10 +114,6 @@ const PageInputCar = () => {
     processImage(selectedImage3, setProcessedImage3);
   }
 
-  const handleDateChange = (date) => {
-    setSelectedDate(date);
-  };
-
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -140,6 +139,9 @@ const PageInputCar = () => {
           plat_nomor: event.target.platCar.value,
           foto: [processedImage1, processedImage2, processedImage3],
           stnk: selectedDate,
+          warna: event.target.colourCar.value,
+          lokasi: event.target.locCar.value,
+          harga: event.target.priceCar.value,
         };
 
         console.log(payload);
@@ -190,6 +192,40 @@ const PageInputCar = () => {
                       placeholder="Masukan Nama"
                     />
                   </Form.Group>
+
+                  {/* data baru, warna, lokasi, harga */}
+                  <Form.Group controlId="colourCar" className="mt-3 mb-3">
+                    <Form.Label>Warna Mobil</Form.Label>
+                    <Form.Control
+                      required
+                      name="colourCar"
+                      type="text"
+                      placeholder="Masukan Warna"
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="locCar" className="mt-3 mb-3">
+                    <Form.Label>Lokasi Mobil</Form.Label>
+                    <Form.Control
+                      required
+                      name="locCar"
+                      type="text"
+                      placeholder="Masukan Lokasi"
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="priceCar" className="mt-3 mb-3">
+                    <Form.Label>Harga Mobil</Form.Label>
+                    <Form.Control
+                      required
+                      name="priceCar"
+                      type="text"
+                      pattern="[0-9]+"
+                      maxLength={15}
+                      placeholder="Masukan Harga"
+                    />
+                  </Form.Group>
+                  {/* batas data baru */}
 
                   <Form.Group controlId="kilometerCar" className="mb-3">
                     <Form.Label>Total Kilometer</Form.Label>

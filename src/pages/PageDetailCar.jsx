@@ -88,7 +88,6 @@ const PageDetailCar = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    // console.log("HALOO");
     post();
   };
 
@@ -108,25 +107,6 @@ const PageDetailCar = () => {
 
         if (response.ok) {
           const data = await response.json();
-          // console.log(data);
-          // handel tanggal
-          // data.stnk = setMonth(data.stnk, -1);
-          // data.stnk = "2023-05-30T17:00:00.000Z";
-          console.log(data.stnk);
-          // data.stnk = format(
-          //   setMonth(parseISO(data.stnk), +3).setHours(0, 0, 0, 0),
-          //   "MMMM, yyyy",
-          //   {
-          //     locale: localeId,
-          //   }
-          // );
-          // data.stnk = format(
-          //   parseISO(data.stnk).setHours(0, 0, 0, 0),
-          //   "MMMM, yyyy",
-          //   {
-          //     locale: localeId,
-          //   }
-          // );
 
           setCarData(data);
         } else {

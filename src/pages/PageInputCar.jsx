@@ -10,7 +10,7 @@ import {
   Dropdown,
   InputGroup,
 } from "react-bootstrap";
-import WidgetNavbar from "../components/WidgetNavbar";
+import WidgetNavbarAdmin from "../components/WidgetNavbarAdmin";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
@@ -173,7 +173,7 @@ const PageInputCar = () => {
 
   return (
     <>
-      <WidgetNavbar />
+      <WidgetNavbarAdmin />
       <Container>
         <Row className="vh-100 d-flex justify-content-center mt-4">
           <Col md={7}>

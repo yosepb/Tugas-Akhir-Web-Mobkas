@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import img1 from "../assets/backLogin.jpg";
 import configApi from "../config.api";
@@ -10,6 +10,37 @@ function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
 
   const navigate = useNavigate();
+
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    // Memeriksa apakah token ada saat komponen dimuat
+    checkToken();
+  }, []);
+
+  const checkToken = async () => {
+    try {
+      const response = await fetch(`${configApi.BASE_URL}/users/check-token`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+      });
+
+      if (response.ok) {
+        // Token valid, pengguna terotentikasi
+        setIsLoggedIn(true);
+      } else {
+        // Token tidak valid atau tidak ada
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      // Token tidak valid atau tidak ada
+      setIsLoggedIn(false);
+    }
+  };
 
   const handleLogin = async () => {
     try {
@@ -62,7 +93,9 @@ function LoginPage() {
     color: "black",
   };
 
-  return (
+  return isLoggedIn ? (
+    navigate("/admin")
+  ) : (
     <Container className="mt-5">
       <Row className="justify-content-center">
         <Col md={4}>

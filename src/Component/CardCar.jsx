@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from "react";
-import { Container, Card, Button } from "react-bootstrap";
+import { Card } from "react-bootstrap";
 import { BsSpeedometer2 } from "react-icons/Bs";
 import { RiSpeedUpLine } from "react-icons/Ri";
 import { AiOutlineHeart } from "react-icons/Ai";
@@ -9,25 +9,16 @@ import CarModel from "../models/CarModel";
 import WidgetCommonIDR from "../components/WidgetCommonIDR";
 
 export default function CardCar({ product }) {
-  // console.log({ items });
-  // console.log(items);
-
   const [carData, setCarData] = useState(CarModel);
 
   const navigate = useNavigate();
 
   useEffect(() => {
     setCarData(product);
-    // console.log("console log dari CardCar", carData);
-    // console.log(carData);
   }, [product]);
 
-  // useEffect(() => {
-  //   console.log("console log dari CardCar", carData);
-  // }, [carData]);
-
   const handleCardClick = (mobilId) => {
-    navigate(`/detail/${mobilId}`); // Melakukan navigasi ke '/detail/:id'
+    navigate(`/detail/${mobilId}`);
   };
 
   return (
@@ -43,8 +34,6 @@ export default function CardCar({ product }) {
           borderRadius: "20px",
           cursor: "pointer",
         }}
-        // onClick={() => navigate("/detail")}
-        // onClick={() => navigate(`/detail/${carData._id}`)}
         onClick={() => handleCardClick(carData._id)}
       >
         <img
@@ -79,11 +68,11 @@ export default function CardCar({ product }) {
               >
                 <div>{carData.nama}</div>
 
-                <AiOutlineHeart
+                {/* <AiOutlineHeart
                   style={{
                     color: "red",
                   }}
-                />
+                /> */}
               </Card.Title>
             </div>
             <div

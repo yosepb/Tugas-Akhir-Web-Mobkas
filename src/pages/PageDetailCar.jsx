@@ -72,7 +72,7 @@ const PageDetailCar = () => {
   const wa = () => {
     const number = 62881022378893;
     const sites = "http://localhost:5173/detail";
-    window.location.href = `https://wa.me/${number}?text=${sites}/${mobilId}%0A%0APerkenalkan, saya: %0ANama%20: ${customerData.nama}%0AKTP: ${customerData.ktp}%0ANomor HP/WA: ${customerData.hp}%0AAlamat: ${customerData.alamat}%0ATertarik dengan mobil yang berada di link diatas. Mohon untuk dibalas.`;
+    window.location.href = `https://wa.me/${number}?text=${sites}/${mobilId}%0A%0APerkenalkan, saya: %0ANama%20: ${customerData.nama}%0AKTP: ${customerData.ktp}%0ANomor HP/WA: ${customerData.hp}%0AAlamat: ${customerData.alamat}%0ASaya tertarik dengan mobil yang berada di link tersemat. Mohon untuk dibalas.`;
   };
 
   // memasukan ke model Customer

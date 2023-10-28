@@ -13,11 +13,15 @@ import {
 
 import { useParams } from "react-router-dom";
 
-import WidgetNavbar from "../components/WidgetNavbar";
+import WidgetNavbarAdmin from "../components/WidgetNavbarAdmin";
+
+import { parseISO, format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import id from "date-fns/locale/id";
+import { enUS } from "date-fns/locale";
+
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import configApi from "../config.api";
@@ -34,16 +38,17 @@ const PageEditCar = () => {
   const [selectedImage1, setSelectedImage1] = useState(null);
   const [selectedImage2, setSelectedImage2] = useState(null);
   const [selectedImage3, setSelectedImage3] = useState(null);
-  const [processedImage1, setProcessedImage1] = useState(null);
-  const [processedImage2, setProcessedImage2] = useState(null);
-  const [processedImage3, setProcessedImage3] = useState(null);
+  const [processedImage1, setProcessedImage1] = useState("");
+  const [processedImage2, setProcessedImage2] = useState("");
+  const [processedImage3, setProcessedImage3] = useState("");
 
   const [carData, setCarData] = useState(CarModel);
 
   const [selectedItemTransmision, setSelectedItemTransmision] = useState("");
   const [selectedItemFuel, setSelectedItemFuel] = useState("");
+  const [selectedItemStatus, setSelectedItemStatus] = useState("");
 
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState("");
 
   const SweetAlert = withReactContent(Swal);
 
@@ -53,6 +58,10 @@ const PageEditCar = () => {
 
   const handleDropdownFuel = (item) => {
     setSelectedItemFuel(item);
+  };
+
+  const handleDropdownStatus = (item) => {
+    setSelectedItemStatus(item);
   };
 
   const handleImageChange = (event, imageNumber) => {
@@ -125,6 +134,11 @@ const PageEditCar = () => {
     setSelectedDate(date);
   };
 
+  const changeFormatSTNK = (stnk) => {
+    const dateObject = parseISO(stnk);
+    setSelectedDate(dateObject);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
 
@@ -150,9 +164,13 @@ const PageEditCar = () => {
           plat_nomor: event.target.platCar.value,
           foto: [processedImage1, processedImage2, processedImage3],
           stnk: selectedDate,
+          warna: event.target.colourCar.value,
+          lokasi: event.target.locCar.value,
+          harga: event.target.priceCar.value,
+          status: selectedItemStatus,
         };
 
-        console.log(payload);
+        // console.log(payload);
 
         try {
           const response = await fetch(
@@ -199,7 +217,17 @@ const PageEditCar = () => {
 
         if (response.ok) {
           const data = await response.json();
-          console.log(data);
+          //
+          //
+          handleDropdownStatus(data.status);
+          handleDropdownFuel(data.bahan_bakar);
+          handleDropdownTransmission(data.transmisi);
+          changeFormatSTNK(data.stnk);
+          //
+          setProcessedImage1(data.foto[0]);
+          setProcessedImage2(data.foto[1]);
+          setProcessedImage3(data.foto[2]);
+          //
           setCarData(data);
         } else {
           console.log("Gagal mendapatkan data mobil");
@@ -214,7 +242,7 @@ const PageEditCar = () => {
 
   return (
     <>
-      <WidgetNavbar />
+      <WidgetNavbarAdmin />
       <Container>
         <Row className="vh-100 d-flex justify-content-center mt-4">
           <Col md={7}>
@@ -224,6 +252,38 @@ const PageEditCar = () => {
                   Edit Data Mobil Bekas
                 </Card.Title>
                 <Form onSubmit={handleSubmit}>
+                  {/* status */}
+                  <Form.Group controlId="statusCar" className="mb-3">
+                    <Form.Label>Status Mobil</Form.Label>
+                    <InputGroup>
+                      <DropdownButton
+                        required
+                        id="statusCar"
+                        title=" "
+                        onSelect={handleDropdownStatus}
+                      >
+                        <Dropdown.Item eventKey="Tersedia">
+                          Tersedia
+                        </Dropdown.Item>
+                        <Dropdown.Item eventKey="Dipesan">
+                          Dipesan
+                        </Dropdown.Item>
+                        <Dropdown.Item eventKey="Terjual">
+                          Terjual
+                        </Dropdown.Item>
+                      </DropdownButton>
+                      <Form.Control
+                        required
+                        disabled
+                        name="statusCar"
+                        // value={selectedItemTransmision}
+                        placeholder="👈 pilih di sini"
+                        defaultValue={selectedItemStatus}
+                      />
+                    </InputGroup>
+                  </Form.Group>
+                  {/*  */}
+
                   <Form.Group controlId="nameCar" className="mt-3 mb-3">
                     <Form.Label>Nama Mobil</Form.Label>
                     <Form.Control
@@ -234,6 +294,43 @@ const PageEditCar = () => {
                       defaultValue={carData.nama}
                     />
                   </Form.Group>
+
+                  {/* data baru, warna, lokasi, harga */}
+                  <Form.Group controlId="colourCar" className="mt-3 mb-3">
+                    <Form.Label>Warna Mobil</Form.Label>
+                    <Form.Control
+                      required
+                      name="colourCar"
+                      type="text"
+                      placeholder="Masukan Warna"
+                      defaultValue={carData.warna}
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="locCar" className="mt-3 mb-3">
+                    <Form.Label>Lokasi Mobil</Form.Label>
+                    <Form.Control
+                      required
+                      name="locCar"
+                      type="text"
+                      placeholder="Masukan Lokasi"
+                      defaultValue={carData.lokasi}
+                    />
+                  </Form.Group>
+
+                  <Form.Group controlId="priceCar" className="mt-3 mb-3">
+                    <Form.Label>Harga Mobil</Form.Label>
+                    <Form.Control
+                      required
+                      name="priceCar"
+                      type="text"
+                      pattern="[0-9]+"
+                      maxLength={15}
+                      placeholder="Masukan Harga"
+                      defaultValue={carData.harga}
+                    />
+                  </Form.Group>
+                  {/* batas data baru */}
 
                   <Form.Group controlId="kilometerCar" className="mb-3">
                     <Form.Label>Total Kilometer</Form.Label>
@@ -277,9 +374,7 @@ const PageEditCar = () => {
                         name="transmissionCar"
                         // value={selectedItemTransmision}
                         placeholder="👈 pilih di sini"
-                        defaultValue={
-                          selectedItemTransmision || carData.transmisi
-                        }
+                        defaultValue={selectedItemTransmision}
                       />
                     </InputGroup>
                   </Form.Group>
@@ -319,7 +414,7 @@ const PageEditCar = () => {
                         name="fuelCar"
                         // value={selectedItemFuel}
                         placeholder="👈 pilih di sini"
-                        defaultValue={selectedItemFuel || carData.bahan_bakar}
+                        defaultValue={selectedItemFuel}
                       />
                     </InputGroup>
                   </Form.Group>
@@ -330,12 +425,12 @@ const PageEditCar = () => {
                     <DatePicker
                       required
                       id="taxCar"
-                      selected={selectedDate}
-                      onChange={handleDateChange}
                       showMonthYearPicker
                       dateFormat="MMMM, yyyy"
                       placeholderText="Isi Bulan/Tahun di sini"
                       className="form-control"
+                      selected={selectedDate}
+                      onChange={handleDateChange}
                     />
                   </Form.Group>
 
@@ -344,7 +439,7 @@ const PageEditCar = () => {
                     <Form.Control
                       type="file"
                       onChange={(event) => handleImageChange(event, 1)}
-                      defaultValue={carData.foto[0]}
+                      // defaultValue={carData.foto[0]}
                     />
                   </Form.Group>
 
@@ -367,33 +462,37 @@ const PageEditCar = () => {
                   <div className="gap-2 mb-3">
                     <Button type="submit">Edit</Button>
                   </div>
-                  {
-                    <div>
-                      <img
-                        src={carData.foto[0]}
-                        alt="Gambar 1 Kosong"
-                        style={{ maxWidth: 300 }}
-                      />
-                    </div>
-                  }
-                  {
-                    <div>
-                      <img
-                        src={carData.foto[1]}
-                        alt="Gambar 2 Kosong"
-                        style={{ maxWidth: 300 }}
-                      />
-                    </div>
-                  }
-                  {
-                    <div>
-                      <img
-                        src={carData.foto[2]}
-                        alt="Gambar 3 Kosong"
-                        style={{ maxWidth: 300 }}
-                      />
-                    </div>
-                  }
+                  {/*  */}
+                  <Row>
+                    <Col xs={4} className="text-center">
+                      <div>
+                        <img
+                          src={carData.foto[0]}
+                          alt=" Gambar 1 Kosong"
+                          style={{ maxWidth: 200 }}
+                        />
+                      </div>
+                    </Col>
+                    <Col xs={4} className="text-center">
+                      <div>
+                        <img
+                          src={carData.foto[1]}
+                          alt=" Gambar 2 Kosong"
+                          style={{ maxWidth: 200 }}
+                        />
+                      </div>
+                    </Col>
+                    <Col xs={4} className="text-center">
+                      <div>
+                        <img
+                          src={carData.foto[2]}
+                          alt=" Gambar 3 Kosong"
+                          style={{ maxWidth: 200 }}
+                        />
+                      </div>
+                    </Col>
+                  </Row>
+                  {/*  */}
                 </Form>
               </Card.Body>
             </Card>

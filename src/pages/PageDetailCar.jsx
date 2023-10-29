@@ -29,6 +29,7 @@ import WidgetCommonHumanDate from "../components/WidgetCommonHumanDate";
 import configApi from "../config.api";
 import CarModel from "../models/CarModel";
 import CustomerModel from "../models/CustomerModel";
+import Footer from "../Component/Footer";
 
 // const PageDetailCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
 const PageDetailCar = () => {
@@ -40,6 +41,28 @@ const PageDetailCar = () => {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  // merubah status mobil menjadi dipesan
+  const changeStatusToDipesan = async () => {
+    try {
+      const response = await fetch(
+        `${configApi.BASE_URL}/produk/${mobilId}/dipesan`,
+        {
+          method: "PUT",
+          headers: {
+            Accept: "application/json",
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`Error! status: ${response.status}`);
+      }
+    } catch (error) {
+      console.log("Terjadi kesalahan:", error);
+    }
+  };
 
   // memasukan data Customer ke Beckend
   const post = async () => {
@@ -64,6 +87,9 @@ const PageDetailCar = () => {
       wa(content);
       // console.log(content);
       // console.log("akan dibuka link ke wa.me");
+
+      // change data jadi dipesan
+      changeStatusToDipesan();
     } catch (error) {
       console.log("Terjadi kesalahan:", error);
     }
@@ -108,7 +134,6 @@ const PageDetailCar = () => {
 
         if (response.ok) {
           const data = await response.json();
-
           setCarData(data);
         } else {
           console.log("Gagal mendapatkan data mobil");
@@ -125,7 +150,7 @@ const PageDetailCar = () => {
     <>
       <WidgetNavbar />
       <Container>
-        <Row className="vh-100 d-flex justify-content-center mt-4">
+        <Row className="d-flex justify-content-center mt-4 mb-5">
           <Col>
             <Card>
               <Card.Body>
@@ -240,7 +265,9 @@ const PageDetailCar = () => {
                               </Button>
                             ) : (
                               <h3>
-                                <i>Tidak Tersedia</i>
+                                <i>
+                                  Telah <u>{carData.status}</u>
+                                </i>
                               </h3>
                             )}
                           </Col>
@@ -333,6 +360,7 @@ const PageDetailCar = () => {
           </Modal.Body>
         </Modal>
       </Container>
+      <Footer />
     </>
   );
 };

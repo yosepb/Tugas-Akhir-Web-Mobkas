@@ -3,6 +3,7 @@ import { Container } from "react-bootstrap";
 import ListMobilAdmin from "../Component/ListMobilAdmin";
 import WidgetNavbarAdmin from "../components/WidgetNavbarAdmin";
 import configApi from "../config.api";
+import Footer from "../Component/Footer";
 
 function MainPagesAdmin() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -68,6 +69,7 @@ function MainPagesAdmin() {
               </div>
             </div>
           </Container>
+          <Footer />
         </>
       ) : (
         <Container>

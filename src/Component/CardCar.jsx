@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 
 import CarModel from "../models/CarModel";
 import WidgetCommonIDR from "../components/WidgetCommonIDR";
+import CardOverlay from "./CardOverlay";
 
 export default function CardCar({ product }) {
   const [carData, setCarData] = useState(CarModel);
@@ -47,6 +48,9 @@ export default function CardCar({ product }) {
         <Card.Body
           style={{ width: "100%", display: "flex", justifyContent: "center" }}
         >
+          {carData.status !== "Tersedia" ? (
+            <CardOverlay status={carData.status} />
+          ) : null}
           <div
             style={{
               width: "14rem",

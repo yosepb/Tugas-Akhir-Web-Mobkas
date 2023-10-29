@@ -18,6 +18,7 @@ import id from "date-fns/locale/id";
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import configApi from "../config.api";
+import Footer from "../Component/Footer";
 
 registerLocale("id", id);
 setDefaultLocale("id");
@@ -175,7 +176,7 @@ const PageInputCar = () => {
     <>
       <WidgetNavbarAdmin />
       <Container>
-        <Row className="vh-100 d-flex justify-content-center mt-4">
+        <Row className="d-flex justify-content-center mt-4 mb-4">
           <Col md={7}>
             <Card>
               <Card.Body>
@@ -360,6 +361,7 @@ const PageInputCar = () => {
           </Col>
         </Row>
       </Container>
+      <Footer />
     </>
   );
 };

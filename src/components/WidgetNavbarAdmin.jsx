@@ -2,15 +2,10 @@ import { Badge, Button, Col, Row } from "react-bootstrap";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import Supercar from "../assets/supercar.png";
 
 function WidgetNavbarAdmin() {
   const handleLogout = () => {
-    // Mengosongkan akses token dari header x-access-token
-    // delete axios.defaults.headers.common["x-access-token"];
-
-    // Logika lain untuk membersihkan data atau melakukan tindakan logout lainnya
-    // contoh: menghapus token dari local storage, mengarahkan pengguna ke halaman login, dll.
     localStorage.removeItem("token");
   };
 
@@ -22,7 +17,8 @@ function WidgetNavbarAdmin() {
     >
       <Container>
         <Navbar.Brand href="/admin">
-          <Badge bg="secondary">Admin</Badge> Toko Mobil Bekas 🛒
+          <img src={Supercar} alt="" width={45} /> Secondhand SuperCar Store{" "}
+          <Badge bg="success">Admin</Badge>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
@@ -44,22 +40,6 @@ function WidgetNavbarAdmin() {
                 <Button variant="warning">🏛</Button>
               </Nav.Link>
             </Nav.Item>
-            {/* <NavDropdown title="Nav User" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/detail">Detail Mobil</NavDropdown.Item>
-            </NavDropdown> */}
-            {/* <NavDropdown title="Nav Admin" id="basic-nav-dropdown">
-              <NavDropdown.Item href="/admin/login">
-                Login Admin
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/admin">Home Admin</NavDropdown.Item>
-              <NavDropdown.Item href="/admin/detail-admin">
-                Detail Mobil
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/admin/input">
-                Input Data
-              </NavDropdown.Item>
-              <NavDropdown.Item href="/admin/edit">Edit Data</NavDropdown.Item>
-            </NavDropdown> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

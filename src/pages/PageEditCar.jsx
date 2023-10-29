@@ -27,6 +27,7 @@ import withReactContent from "sweetalert2-react-content";
 import configApi from "../config.api";
 
 import CarModel from "../models/CarModel";
+import Footer from "../Component/Footer";
 
 registerLocale("id", id);
 setDefaultLocale("id");
@@ -244,7 +245,7 @@ const PageEditCar = () => {
     <>
       <WidgetNavbarAdmin />
       <Container>
-        <Row className="vh-100 d-flex justify-content-center mt-4">
+        <Row className="d-flex justify-content-center mt-4 mb-4">
           <Col md={7}>
             <Card>
               <Card.Body>
@@ -462,7 +463,7 @@ const PageEditCar = () => {
                   <div className="gap-2 mb-3">
                     <Button type="submit">Edit</Button>
                   </div>
-                  {/*  */}
+
                   <Row>
                     <Col xs={4} className="text-center">
                       <div>
@@ -492,13 +493,13 @@ const PageEditCar = () => {
                       </div>
                     </Col>
                   </Row>
-                  {/*  */}
                 </Form>
               </Card.Body>
             </Card>
           </Col>
         </Row>
       </Container>
+      <Footer />
     </>
   );
 };

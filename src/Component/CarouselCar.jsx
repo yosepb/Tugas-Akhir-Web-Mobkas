@@ -60,47 +60,6 @@ export default function CarouselCar() {
     prevArrow: <SamplePrevArrow />,
   };
 
-  // const cardData = [
-  //   {
-  //     title: "Card 1",
-  //     description: "Description for Card 1",
-  //     imageUrl: "https://via.placeholder.com/200x200",
-  //     id: 1,
-  //   },
-  //   {
-  //     title: "Card 2",
-  //     description: "Description for Card 1",
-  //     imageUrl: "https://via.placeholder.com/200x200",
-  //     id: 2,
-  //   },
-  //   {
-  //     title: "Card 3",
-  //     description: "Description for Card 1",
-  //     imageUrl: "https://via.placeholder.com/200x200",
-  //     id: 3,
-  //   },
-  //   {
-  //     title: "Card 4",
-  //     description: "Description for Card 1",
-  //     imageUrl: "https://via.placeholder.com/200x200",
-  //     id: 4,
-  //   },
-  //   {
-  //     title: "Card 5",
-  //     description: "Description for Card 1",
-  //     imageUrl: "https://via.placeholder.com/200x200",
-  //     id: 5,
-  //   },
-  //   {
-  //     title: "Card 6",
-  //     description: "Description for Card 1",
-  //     imageUrl: "https://via.placeholder.com/200x200",
-  //     id: 6,
-  //   },
-  // ];
-
-  // console.log(products);
-
   return (
     <div style={{ width: "1310px", padding: "20px", marginTop: "40px" }}>
       <Slider {...settings}>
@@ -111,7 +70,6 @@ export default function CarouselCar() {
             ) {
               return <CardCar key={product._id} product={product} />;
             }
-            console.log(product.status);
           })}
       </Slider>
     </div>

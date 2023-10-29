@@ -9,6 +9,7 @@ import CarModel from "../models/CarModel";
 import WidgetCommonIDR from "../components/WidgetCommonIDR";
 import configApi from "../config.api";
 import Swal from "sweetalert2";
+import CardOverlay from "./CardOverlay";
 
 export default function CardCarAdmin({ product }) {
   const [carData, setCarData] = useState(CarModel);
@@ -100,6 +101,9 @@ export default function CardCarAdmin({ product }) {
           <Card.Body
             style={{ width: "100%", display: "flex", justifyContent: "center" }}
           >
+            {carData.status !== "Tersedia" ? (
+              <CardOverlay status={carData.status} />
+            ) : null}
             <div
               style={{
                 width: "14rem",

@@ -14,7 +14,6 @@ function LoginPage() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   useEffect(() => {
-    // Memeriksa apakah token ada saat komponen dimuat
     checkToken();
   }, []);
 
@@ -29,15 +28,12 @@ function LoginPage() {
       });
 
       if (response.ok) {
-        // Token valid, pengguna terotentikasi
         setIsLoggedIn(true);
       } else {
-        // Token tidak valid atau tidak ada
         setIsLoggedIn(false);
       }
     } catch (error) {
       console.error("Error:", error);
-      // Token tidak valid atau tidak ada
       setIsLoggedIn(false);
     }
   };
@@ -132,6 +128,12 @@ function LoginPage() {
                 Login
               </Button>
             </Form>
+          </div>
+          <br />
+          <div>
+            <i>
+              ke <a href="/">Halaman Utama</a>
+            </i>
           </div>
         </Col>
       </Row>

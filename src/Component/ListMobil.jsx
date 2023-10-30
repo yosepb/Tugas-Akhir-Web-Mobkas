@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import CardCar from "./CardCar";
 import ProductFilter from "./Filter";
 import configApi from "../config.api";
-import CarModel from "../models/CarModel";
 
 function ListMobil() {
   const [products, setProducts] = useState([]);

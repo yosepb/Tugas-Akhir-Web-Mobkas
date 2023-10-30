@@ -6,7 +6,6 @@ import TutorialBuyCar from "../Component/TutorialBuyCar";
 import ListMobil from "../Component/ListMobil";
 import { BiSolidDownArrow } from "react-icons/Bi";
 import WidgetNavbar from "../components/WidgetNavbar";
-import { Container } from "react-bootstrap";
 import Footer from "../Component/Footer";
 
 function MainPages() {
@@ -22,7 +21,6 @@ function MainPages() {
           justifyContent: "center",
           alignItems: "center",
           flexDirection: "column",
-          // marginBottom: 20,
         }}
       >
         <MainBanner />

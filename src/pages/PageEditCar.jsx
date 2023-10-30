@@ -10,48 +10,63 @@ import {
   Dropdown,
   InputGroup,
 } from "react-bootstrap";
-
 import { useParams } from "react-router-dom";
-
 import WidgetNavbarAdmin from "../components/WidgetNavbarAdmin";
-
 import { parseISO, format } from "date-fns";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { registerLocale, setDefaultLocale } from "react-datepicker";
 import id from "date-fns/locale/id";
 import { enUS } from "date-fns/locale";
-
 import Swal from "sweetalert2";
 import withReactContent from "sweetalert2-react-content";
 import configApi from "../config.api";
-
 import CarModel from "../models/CarModel";
 import Footer from "../Component/Footer";
 
 registerLocale("id", id);
 setDefaultLocale("id");
 
-// const PageEditCar = ({ mobilId }) => {
 const PageEditCar = () => {
   const { mobilId } = useParams();
-
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [selectedImage1, setSelectedImage1] = useState(null);
   const [selectedImage2, setSelectedImage2] = useState(null);
   const [selectedImage3, setSelectedImage3] = useState(null);
   const [processedImage1, setProcessedImage1] = useState("");
   const [processedImage2, setProcessedImage2] = useState("");
   const [processedImage3, setProcessedImage3] = useState("");
-
   const [carData, setCarData] = useState(CarModel);
-
   const [selectedItemTransmision, setSelectedItemTransmision] = useState("");
   const [selectedItemFuel, setSelectedItemFuel] = useState("");
   const [selectedItemStatus, setSelectedItemStatus] = useState("");
-
   const [selectedDate, setSelectedDate] = useState("");
-
   const SweetAlert = withReactContent(Swal);
+
+  useEffect(() => {
+    checkToken();
+  }, []);
+
+  const checkToken = async () => {
+    try {
+      const response = await fetch(`${configApi.BASE_URL}/users/check-token`, {
+        method: "GET",
+        headers: {
+          Accept: "application/json",
+          "x-access-token": localStorage.getItem("token"),
+        },
+      });
+
+      if (response.ok) {
+        setIsLoggedIn(true);
+      } else {
+        setIsLoggedIn(false);
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      setIsLoggedIn(false);
+    }
+  };
 
   const handleDropdownTransmission = (item) => {
     setSelectedItemTransmision(item);
@@ -152,10 +167,7 @@ const PageEditCar = () => {
       cancelButtonText: "Tidak",
     }).then(async (result) => {
       if (result.isConfirmed) {
-        // Handle form submission
         Swal.fire("Diubah!", "Data telah diubah.", "success");
-
-        // Mengirim data ke endpoint POST /produk
         const payload = {
           nama: event.target.nameCar.value,
           kilometer: event.target.kilometerCar.value,
@@ -170,8 +182,6 @@ const PageEditCar = () => {
           harga: event.target.priceCar.value,
           status: selectedItemStatus,
         };
-
-        // console.log(payload);
 
         try {
           const response = await fetch(
@@ -188,14 +198,11 @@ const PageEditCar = () => {
 
           if (response.ok) {
             console.log("Data berhasil dikirim ke endpoint PUT /produk");
-
-            // refresh Halaman
             window.location.reload();
           } else {
             console.log("Gagal mengirim data ke endpoint POST /produk");
           }
         } catch (error) {
-          // console.log(response);
           console.log("Terjadi kesalahan:", error);
         }
       }
@@ -218,17 +225,13 @@ const PageEditCar = () => {
 
         if (response.ok) {
           const data = await response.json();
-          //
-          //
           handleDropdownStatus(data.status);
           handleDropdownFuel(data.bahan_bakar);
           handleDropdownTransmission(data.transmisi);
           changeFormatSTNK(data.stnk);
-          //
           setProcessedImage1(data.foto[0]);
           setProcessedImage2(data.foto[1]);
           setProcessedImage3(data.foto[2]);
-          //
           setCarData(data);
         } else {
           console.log("Gagal mendapatkan data mobil");
@@ -243,263 +246,275 @@ const PageEditCar = () => {
 
   return (
     <>
-      <WidgetNavbarAdmin />
-      <Container>
-        <Row className="d-flex justify-content-center mt-4 mb-4">
-          <Col md={7}>
-            <Card>
-              <Card.Body>
-                <Card.Title className="text-center">
-                  Edit Data Mobil Bekas
-                </Card.Title>
-                <Form onSubmit={handleSubmit}>
-                  {/* status */}
-                  <Form.Group controlId="statusCar" className="mb-3">
-                    <Form.Label>Status Mobil</Form.Label>
-                    <InputGroup>
-                      <DropdownButton
-                        required
-                        id="statusCar"
-                        title=" "
-                        onSelect={handleDropdownStatus}
-                      >
-                        <Dropdown.Item eventKey="Tersedia">
-                          Tersedia
-                        </Dropdown.Item>
-                        <Dropdown.Item eventKey="Dipesan">
-                          Dipesan
-                        </Dropdown.Item>
-                        <Dropdown.Item eventKey="Terjual">
-                          Terjual
-                        </Dropdown.Item>
-                      </DropdownButton>
-                      <Form.Control
-                        required
-                        disabled
-                        name="statusCar"
-                        // value={selectedItemTransmision}
-                        placeholder="👈 pilih di sini"
-                        defaultValue={selectedItemStatus}
-                      />
-                    </InputGroup>
-                  </Form.Group>
-                  {/*  */}
+      {isLoggedIn ? (
+        <>
+          <WidgetNavbarAdmin />
+          <Container>
+            <Row className="d-flex justify-content-center mt-4 mb-4">
+              <Col md={7}>
+                <Card>
+                  <Card.Body>
+                    <Card.Title className="text-center">
+                      Edit Data Mobil Bekas
+                    </Card.Title>
+                    <Form onSubmit={handleSubmit}>
+                      {/* status */}
+                      <Form.Group controlId="statusCar" className="mb-3">
+                        <Form.Label>Status Mobil</Form.Label>
+                        <InputGroup>
+                          <DropdownButton
+                            required
+                            id="statusCar"
+                            title=" "
+                            onSelect={handleDropdownStatus}
+                          >
+                            <Dropdown.Item eventKey="Tersedia">
+                              Tersedia
+                            </Dropdown.Item>
+                            <Dropdown.Item eventKey="Dipesan">
+                              Dipesan
+                            </Dropdown.Item>
+                            <Dropdown.Item eventKey="Terjual">
+                              Terjual
+                            </Dropdown.Item>
+                          </DropdownButton>
+                          <Form.Control
+                            required
+                            disabled
+                            name="statusCar"
+                            placeholder="👈 pilih di sini"
+                            defaultValue={selectedItemStatus}
+                          />
+                        </InputGroup>
+                      </Form.Group>
 
-                  <Form.Group controlId="nameCar" className="mt-3 mb-3">
-                    <Form.Label>Nama Mobil</Form.Label>
-                    <Form.Control
-                      required
-                      name="nameCar"
-                      type="text"
-                      placeholder="Masukan Nama"
-                      defaultValue={carData.nama}
-                    />
-                  </Form.Group>
-
-                  {/* data baru, warna, lokasi, harga */}
-                  <Form.Group controlId="colourCar" className="mt-3 mb-3">
-                    <Form.Label>Warna Mobil</Form.Label>
-                    <Form.Control
-                      required
-                      name="colourCar"
-                      type="text"
-                      placeholder="Masukan Warna"
-                      defaultValue={carData.warna}
-                    />
-                  </Form.Group>
-
-                  <Form.Group controlId="locCar" className="mt-3 mb-3">
-                    <Form.Label>Lokasi Mobil</Form.Label>
-                    <Form.Control
-                      required
-                      name="locCar"
-                      type="text"
-                      placeholder="Masukan Lokasi"
-                      defaultValue={carData.lokasi}
-                    />
-                  </Form.Group>
-
-                  <Form.Group controlId="priceCar" className="mt-3 mb-3">
-                    <Form.Label>Harga Mobil</Form.Label>
-                    <Form.Control
-                      required
-                      name="priceCar"
-                      type="text"
-                      pattern="[0-9]+"
-                      maxLength={15}
-                      placeholder="Masukan Harga"
-                      defaultValue={carData.harga}
-                    />
-                  </Form.Group>
-                  {/* batas data baru */}
-
-                  <Form.Group controlId="kilometerCar" className="mb-3">
-                    <Form.Label>Total Kilometer</Form.Label>
-                    <Form.Control
-                      required
-                      name="kilometerCar"
-                      type="number"
-                      placeholder="Masukan Total Kilometer"
-                      defaultValue={carData.kilometer}
-                    />
-                  </Form.Group>
-
-                  <Form.Group controlId="yearCar" className="mb-3">
-                    <Form.Label>Tahun Produksi</Form.Label>
-                    <Form.Control
-                      required
-                      name="yearCar"
-                      type="number"
-                      placeholder="Masukan Tahun Produksi"
-                      defaultValue={carData.tahun}
-                    />
-                  </Form.Group>
-
-                  <Form.Group controlId="transmissionCar" className="mb-3">
-                    <Form.Label>Transmisi</Form.Label>
-                    <InputGroup>
-                      <DropdownButton
-                        required
-                        id="transmissionCar"
-                        title=" "
-                        onSelect={handleDropdownTransmission}
-                      >
-                        <Dropdown.Item eventKey="Manual">Manual</Dropdown.Item>
-                        <Dropdown.Item eventKey="Automatic">
-                          Automatic
-                        </Dropdown.Item>
-                      </DropdownButton>
-                      <Form.Control
-                        required
-                        disabled
-                        name="transmissionCar"
-                        // value={selectedItemTransmision}
-                        placeholder="👈 pilih di sini"
-                        defaultValue={selectedItemTransmision}
-                      />
-                    </InputGroup>
-                  </Form.Group>
-
-                  <Form.Group controlId="platCar" className="mt-3 mb-3">
-                    <Form.Label>Plat Nomor</Form.Label>
-                    <Form.Control
-                      required
-                      name="platCar"
-                      type="text"
-                      pattern="[A-Z0-9]+"
-                      maxLength={9}
-                      placeholder="Masukan Plat Nomor"
-                      title="Plat nomor harus terdiri dari huruf kapital dan/atau angka"
-                      defaultValue={carData.plat_nomor}
-                    />
-                  </Form.Group>
-
-                  <Form.Group controlId="fuelCar" className="mb-3">
-                    <Form.Label>Bahan Bakar</Form.Label>
-                    <InputGroup>
-                      <DropdownButton
-                        required
-                        id="fuelCar"
-                        title=" "
-                        onSelect={handleDropdownFuel}
-                      >
-                        <Dropdown.Item eventKey="Bensin">Bensin</Dropdown.Item>
-                        <Dropdown.Item eventKey="Diesel">Diesel</Dropdown.Item>
-                        <Dropdown.Item eventKey="Listrik">
-                          Listrik
-                        </Dropdown.Item>
-                      </DropdownButton>
-                      <Form.Control
-                        required
-                        disabled
-                        name="fuelCar"
-                        // value={selectedItemFuel}
-                        placeholder="👈 pilih di sini"
-                        defaultValue={selectedItemFuel}
-                      />
-                    </InputGroup>
-                  </Form.Group>
-
-                  <Form.Group controlId="taxCar" className="mb-3">
-                    <Form.Label>Bulan & Tahun Pajak</Form.Label>
-                    <br />
-                    <DatePicker
-                      required
-                      id="taxCar"
-                      showMonthYearPicker
-                      dateFormat="MMMM, yyyy"
-                      placeholderText="Isi Bulan/Tahun di sini"
-                      className="form-control"
-                      selected={selectedDate}
-                      onChange={handleDateChange}
-                    />
-                  </Form.Group>
-
-                  <Form.Group controlId="imageUpload1" className="mb-3">
-                    <Form.Label>Gambar Mobil 1</Form.Label>
-                    <Form.Control
-                      type="file"
-                      onChange={(event) => handleImageChange(event, 1)}
-                      // defaultValue={carData.foto[0]}
-                    />
-                  </Form.Group>
-
-                  <Form.Group controlId="imageUpload2" className="mb-3">
-                    <Form.Label>Gambar Mobil 2</Form.Label>
-                    <Form.Control
-                      type="file"
-                      onChange={(event) => handleImageChange(event, 2)}
-                    />
-                  </Form.Group>
-
-                  <Form.Group controlId="imageUpload3" className="mb-3">
-                    <Form.Label>Gambar Mobil 3</Form.Label>
-                    <Form.Control
-                      type="file"
-                      onChange={(event) => handleImageChange(event, 3)}
-                    />
-                  </Form.Group>
-
-                  <div className="gap-2 mb-3">
-                    <Button type="submit">Edit</Button>
-                  </div>
-
-                  <Row>
-                    <Col xs={4} className="text-center">
-                      <div>
-                        <img
-                          src={carData.foto[0]}
-                          alt=" Gambar 1 Kosong"
-                          style={{ maxWidth: 200 }}
+                      <Form.Group controlId="nameCar" className="mt-3 mb-3">
+                        <Form.Label>Nama Mobil</Form.Label>
+                        <Form.Control
+                          required
+                          name="nameCar"
+                          type="text"
+                          placeholder="Masukan Nama"
+                          defaultValue={carData.nama}
                         />
-                      </div>
-                    </Col>
-                    <Col xs={4} className="text-center">
-                      <div>
-                        <img
-                          src={carData.foto[1]}
-                          alt=" Gambar 2 Kosong"
-                          style={{ maxWidth: 200 }}
+                      </Form.Group>
+
+                      <Form.Group controlId="colourCar" className="mt-3 mb-3">
+                        <Form.Label>Warna Mobil</Form.Label>
+                        <Form.Control
+                          required
+                          name="colourCar"
+                          type="text"
+                          placeholder="Masukan Warna"
+                          defaultValue={carData.warna}
                         />
-                      </div>
-                    </Col>
-                    <Col xs={4} className="text-center">
-                      <div>
-                        <img
-                          src={carData.foto[2]}
-                          alt=" Gambar 3 Kosong"
-                          style={{ maxWidth: 200 }}
+                      </Form.Group>
+
+                      <Form.Group controlId="locCar" className="mt-3 mb-3">
+                        <Form.Label>Lokasi Mobil</Form.Label>
+                        <Form.Control
+                          required
+                          name="locCar"
+                          type="text"
+                          placeholder="Masukan Lokasi"
+                          defaultValue={carData.lokasi}
                         />
+                      </Form.Group>
+
+                      <Form.Group controlId="priceCar" className="mt-3 mb-3">
+                        <Form.Label>Harga Mobil</Form.Label>
+                        <Form.Control
+                          required
+                          name="priceCar"
+                          type="text"
+                          pattern="[0-9]+"
+                          maxLength={15}
+                          placeholder="Masukan Harga"
+                          defaultValue={carData.harga}
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="kilometerCar" className="mb-3">
+                        <Form.Label>Total Kilometer</Form.Label>
+                        <Form.Control
+                          required
+                          name="kilometerCar"
+                          type="number"
+                          placeholder="Masukan Total Kilometer"
+                          defaultValue={carData.kilometer}
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="yearCar" className="mb-3">
+                        <Form.Label>Tahun Produksi</Form.Label>
+                        <Form.Control
+                          required
+                          name="yearCar"
+                          type="number"
+                          placeholder="Masukan Tahun Produksi"
+                          defaultValue={carData.tahun}
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="transmissionCar" className="mb-3">
+                        <Form.Label>Transmisi</Form.Label>
+                        <InputGroup>
+                          <DropdownButton
+                            required
+                            id="transmissionCar"
+                            title=" "
+                            onSelect={handleDropdownTransmission}
+                          >
+                            <Dropdown.Item eventKey="Manual">
+                              Manual
+                            </Dropdown.Item>
+                            <Dropdown.Item eventKey="Automatic">
+                              Automatic
+                            </Dropdown.Item>
+                          </DropdownButton>
+                          <Form.Control
+                            required
+                            disabled
+                            name="transmissionCar"
+                            placeholder="👈 pilih di sini"
+                            defaultValue={selectedItemTransmision}
+                          />
+                        </InputGroup>
+                      </Form.Group>
+
+                      <Form.Group controlId="platCar" className="mt-3 mb-3">
+                        <Form.Label>Plat Nomor</Form.Label>
+                        <Form.Control
+                          required
+                          name="platCar"
+                          type="text"
+                          pattern="[A-Z0-9]+"
+                          maxLength={9}
+                          placeholder="Masukan Plat Nomor"
+                          title="Plat nomor harus terdiri dari huruf kapital dan/atau angka"
+                          defaultValue={carData.plat_nomor}
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="fuelCar" className="mb-3">
+                        <Form.Label>Bahan Bakar</Form.Label>
+                        <InputGroup>
+                          <DropdownButton
+                            required
+                            id="fuelCar"
+                            title=" "
+                            onSelect={handleDropdownFuel}
+                          >
+                            <Dropdown.Item eventKey="Bensin">
+                              Bensin
+                            </Dropdown.Item>
+                            <Dropdown.Item eventKey="Diesel">
+                              Diesel
+                            </Dropdown.Item>
+                            <Dropdown.Item eventKey="Listrik">
+                              Listrik
+                            </Dropdown.Item>
+                          </DropdownButton>
+                          <Form.Control
+                            required
+                            disabled
+                            name="fuelCar"
+                            placeholder="👈 pilih di sini"
+                            defaultValue={selectedItemFuel}
+                          />
+                        </InputGroup>
+                      </Form.Group>
+
+                      <Form.Group controlId="taxCar" className="mb-3">
+                        <Form.Label>Bulan & Tahun Pajak</Form.Label>
+                        <br />
+                        <DatePicker
+                          required
+                          id="taxCar"
+                          showMonthYearPicker
+                          dateFormat="MMMM, yyyy"
+                          placeholderText="Isi Bulan/Tahun di sini"
+                          className="form-control"
+                          selected={selectedDate}
+                          onChange={handleDateChange}
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="imageUpload1" className="mb-3">
+                        <Form.Label>Gambar Mobil 1</Form.Label>
+                        <Form.Control
+                          type="file"
+                          onChange={(event) => handleImageChange(event, 1)}
+                          // defaultValue={carData.foto[0]}
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="imageUpload2" className="mb-3">
+                        <Form.Label>Gambar Mobil 2</Form.Label>
+                        <Form.Control
+                          type="file"
+                          onChange={(event) => handleImageChange(event, 2)}
+                        />
+                      </Form.Group>
+
+                      <Form.Group controlId="imageUpload3" className="mb-3">
+                        <Form.Label>Gambar Mobil 3</Form.Label>
+                        <Form.Control
+                          type="file"
+                          onChange={(event) => handleImageChange(event, 3)}
+                        />
+                      </Form.Group>
+
+                      <div className="gap-2 mb-3">
+                        <Button type="submit">Edit</Button>
                       </div>
-                    </Col>
-                  </Row>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Col>
-        </Row>
-      </Container>
-      <Footer />
+
+                      <Row>
+                        <Col xs={4} className="text-center">
+                          <div>
+                            <img
+                              src={carData.foto[0]}
+                              alt=" Gambar 1 Kosong"
+                              style={{ maxWidth: 200 }}
+                            />
+                          </div>
+                        </Col>
+                        <Col xs={4} className="text-center">
+                          <div>
+                            <img
+                              src={carData.foto[1]}
+                              alt=" Gambar 2 Kosong"
+                              style={{ maxWidth: 200 }}
+                            />
+                          </div>
+                        </Col>
+                        <Col xs={4} className="text-center">
+                          <div>
+                            <img
+                              src={carData.foto[2]}
+                              alt=" Gambar 3 Kosong"
+                              style={{ maxWidth: 200 }}
+                            />
+                          </div>
+                        </Col>
+                      </Row>
+                    </Form>
+                  </Card.Body>
+                </Card>
+              </Col>
+            </Row>
+          </Container>
+          <Footer />
+        </>
+      ) : (
+        <Container>
+          <h3 className="ml-3 mt-3">
+            <i>
+              Anda harus <a href="/admin/login">login</a>
+            </i>
+          </h3>
+        </Container>
+      )}
     </>
   );
 };

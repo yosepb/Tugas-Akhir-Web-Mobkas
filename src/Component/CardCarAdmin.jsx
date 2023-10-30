@@ -2,7 +2,6 @@ import { React, useState, useEffect } from "react";
 import { Alert, Button, Card } from "react-bootstrap";
 import { BsSpeedometer2 } from "react-icons/Bs";
 import { RiSpeedUpLine } from "react-icons/Ri";
-import { AiOutlineHeart } from "react-icons/Ai";
 import { useNavigate } from "react-router-dom";
 
 import CarModel from "../models/CarModel";
@@ -82,9 +81,9 @@ export default function CardCarAdmin({ product }) {
           <Button
             variant="danger"
             className="position-absolute top-0 end-0"
-            style={{ borderTopRightRadius: "20px" }}
+            style={{ borderTopRightRadius: "20px", zIndex: "9" }}
             onClick={(e) => {
-              e.stopPropagation(); // Mencegah event bubbling
+              e.stopPropagation();
               handleCardDelete(carData._id);
             }}
           >
@@ -124,12 +123,6 @@ export default function CardCarAdmin({ product }) {
                   }}
                 >
                   <div>{carData.nama}</div>
-
-                  {/* <AiOutlineHeart
-                  style={{
-                    color: "red",
-                  }}
-                /> */}
                 </Card.Title>
               </div>
               <div

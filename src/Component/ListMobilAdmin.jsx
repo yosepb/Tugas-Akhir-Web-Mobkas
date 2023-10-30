@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import CardCarAdmin from "./CardCarAdmin";
 import ProductFilter from "./Filter";
 import configApi from "../config.api";
-import CarModel from "../models/CarModel";
 
 export default function ListMobilAdmin() {
   const [products, setProducts] = useState([]);

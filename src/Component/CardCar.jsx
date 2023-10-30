@@ -2,7 +2,6 @@ import { React, useState, useEffect } from "react";
 import { Card } from "react-bootstrap";
 import { BsSpeedometer2 } from "react-icons/Bs";
 import { RiSpeedUpLine } from "react-icons/Ri";
-import { AiOutlineHeart } from "react-icons/Ai";
 import { useNavigate } from "react-router-dom";
 
 import CarModel from "../models/CarModel";
@@ -71,12 +70,6 @@ export default function CardCar({ product }) {
                 }}
               >
                 <div>{carData.nama}</div>
-
-                {/* <AiOutlineHeart
-                  style={{
-                    color: "red",
-                  }}
-                /> */}
               </Card.Title>
             </div>
             <div

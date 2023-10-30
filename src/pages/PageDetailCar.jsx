@@ -8,9 +8,7 @@ import {
   Row,
   Modal,
 } from "react-bootstrap";
-
 import { useParams } from "react-router-dom";
-
 import WidgetNavbar from "../components/WidgetNavbar";
 import Carousel from "react-bootstrap/Carousel";
 import { BsFuelPump } from "react-icons/Bs";
@@ -22,10 +20,8 @@ import { MdDateRange } from "react-icons/md";
 import { LuGauge } from "react-icons/lu";
 import { TbNumber } from "react-icons/tb";
 import { BsCartPlus } from "react-icons/Bs";
-
 import WidgetCommonIDR from "../components/WidgetCommonIDR";
 import WidgetCommonHumanDate from "../components/WidgetCommonHumanDate";
-
 import configApi from "../config.api";
 import CarModel from "../models/CarModel";
 import CustomerModel from "../models/CustomerModel";
@@ -34,15 +30,13 @@ import Footer from "../Component/Footer";
 // const PageDetailCar = ({ mobilId = "6535f33687f56b2bbf264175" }) => {
 const PageDetailCar = () => {
   const { mobilId } = useParams();
-
   const [carData, setCarData] = useState(CarModel);
   const [customerData, setCustomerData] = useState(CustomerModel);
-
   const [show, setShow] = useState(false);
+
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
-  // merubah status mobil menjadi dipesan
   const changeStatusToDipesan = async () => {
     try {
       const response = await fetch(
@@ -64,7 +58,6 @@ const PageDetailCar = () => {
     }
   };
 
-  // memasukan data Customer ke Beckend
   const post = async () => {
     try {
       const response = await fetch(`${configApi.BASE_URL}/customers`, {
@@ -82,14 +75,9 @@ const PageDetailCar = () => {
 
       let content = await response.json();
       setCustomerData(content);
-
-      // window.open("wa.me", "_blank");
       wa(content);
-      // console.log(content);
-      // console.log("akan dibuka link ke wa.me");
-
-      // change data jadi dipesan
       changeStatusToDipesan();
+      window.location.reload();
     } catch (error) {
       console.log("Terjadi kesalahan:", error);
     }
@@ -98,10 +86,10 @@ const PageDetailCar = () => {
   const wa = () => {
     const number = 62881022378893;
     const sites = "http://localhost:5173/detail";
-    window.location.href = `https://wa.me/${number}?text=${sites}/${mobilId}%0A%0APerkenalkan, saya: %0ANama%20: ${customerData.nama}%0AKTP: ${customerData.ktp}%0ANomor HP/WA: ${customerData.hp}%0AAlamat: ${customerData.alamat}%0ASaya tertarik dengan mobil yang berada di link tersemat. Mohon untuk dibalas.`;
+    const goto = `https://wa.me/${number}?text=${sites}/${mobilId}%0A%0APerkenalkan, saya: %0ANama%20: ${customerData.nama}%0AKTP: ${customerData.ktp}%0ANomor HP/WA: ${customerData.hp}%0AAlamat: ${customerData.alamat}%0ASaya tertarik dengan mobil yang berada di link tersemat. Mohon untuk dibalas.`;
+    window.open(goto, "_blank");
   };
 
-  // memasukan ke model Customer
   const handleCustomer = (e) => {
     const name = e.target.name;
     let value = e.target.value;
@@ -261,7 +249,7 @@ const PageDetailCar = () => {
                               carData.status === "Terjual"
                             ) ? (
                               <Button variant="success" onClick={handleShow}>
-                                <BsCartPlus /> Beli via WhatsApp
+                                <BsCartPlus /> Pesan Mobil via WhatsApp
                               </Button>
                             ) : (
                               <h3>

@@ -28,16 +28,19 @@ function MainPages() {
         <div
           style={{
             display: "flex",
+            flexDirection: "column",
             justifyContent: "center",
             alignItems: "center",
             width: "100%",
             backgroundColor: "#121b6e",
             position: "relative",
             marginTop: "20px",
+            paddingBottom: "40px",
           }}
         >
           <CarouselCar />
           <button
+            className="brespon"
             style={{
               fontSize: "20px",
               fontWeight: "600",
@@ -45,30 +48,32 @@ function MainPages() {
               justifyContent: "center",
               alignItems: "center",
               border: "none",
-              marginTop: "80px",
+              marginTop: "40px",
               textAlign: "center",
               flexDirection: "column",
               backgroundColor: "transparent",
-              position: "absolute",
-              right: "100px",
             }}
             onClick={() => setToggle(!toggle)}
           >
             <p
               style={{
-                color: "white",
+                color: "black",
+                padding: "10px",
+                borderRadius: "10px",
+                backgroundColor: "yellow",
+                width: "8rem",
               }}
             >
               All Car
             </p>
-            <BiSolidDownArrow
+            {/* <BiSolidDownArrow
               style={{
                 width: "150px",
                 height: "150px",
                 marginTop: "-40px",
                 color: "yellow",
               }}
-            />
+            /> */}
           </button>
         </div>
 
@@ -82,7 +87,7 @@ function MainPages() {
                 alignSelf: "center",
                 justifyContent: "center",
                 textAlign: "center",
-                marginTop: "20px",
+                marginTop: "10px",
               }}
             >
               {" "}

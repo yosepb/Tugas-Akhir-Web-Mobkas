@@ -51,7 +51,7 @@ export default function CarouselCar() {
     dots: true,
     infinite: true,
     speed: 500,
-    slidesToShow: 4,
+    slidesToShow: 5,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 5000,
@@ -61,7 +61,7 @@ export default function CarouselCar() {
   };
 
   return (
-    <div style={{ width: "1310px", padding: "20px", marginTop: "40px" }}>
+    <div style={{ width: "1600px", padding: "20px", marginTop: "40px" }}>
       <Slider {...settings}>
         {products.length > 0 &&
           products.map((product) => {

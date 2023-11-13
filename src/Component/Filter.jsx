@@ -3,7 +3,13 @@ import React from "react";
 const ProductFilter = ({ setFilter }) => {
   return (
     <div>
-      <div>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
         <button onClick={() => setFilter("all")} style={sx.buton}>
           All
         </button>
